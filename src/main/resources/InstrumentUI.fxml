@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="490.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane layoutX="6.0" prefHeight="490.0" prefWidth="929.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <tabs>
+            <Tab text="Wave">
+               <content>
+                  <AnchorPane fx:id="waveformPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Spinner fx:id="instrumentSpinner" editable="true" layoutX="56.0" layoutY="5.0" prefHeight="26.0" prefWidth="70.0" />
+                        <Label layoutX="140.0" layoutY="7.0" text="Tune" />
+                        <Spinner fx:id="pitchFineTune" editable="true" layoutX="244.0" layoutY="4.0" prefHeight="26.0" prefWidth="66.0" />
+                        <Spinner fx:id="pitchTune" editable="true" layoutX="172.0" layoutY="3.0" prefHeight="26.0" prefWidth="72.0" />
+                        <CheckBox fx:id="instrumentDspEnabled" layoutX="324.0" layoutY="9.0" mnemonicParsing="false" text="Dsp" />
+                        <Label layoutX="531.0" layoutY="9.0" text="Volume" />
+                        <Slider fx:id="instrumentVolume" layoutX="582.0" layoutY="4.0" max="500.0" prefHeight="38.0" prefWidth="224.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="582.0" AnchorPane.rightAnchor="10.0" />
+                        <Button layoutY="5.0" mnemonicParsing="false" onAction="#loadSample" text="Load" />
+                        <ComboBox fx:id="instrumentGroup" editable="true" layoutX="388.0" layoutY="5.0" prefWidth="120.0" />
+                        <Rectangle fx:id="groupeRect" arcHeight="5.0" arcWidth="5.0" disable="true" fill="TRANSPARENT" height="26.0" layoutX="508.0" layoutY="6.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="14.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Properties">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="propertyList" layoutX="6.0" layoutY="7.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="EQ">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Env">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Info">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="instrumentDetailsList" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="rootPane" prefHeight="706.0" prefWidth="1288.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.meng.symphoniefx.MainController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#newSong" text="New">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#loadMod" text="Open…">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="reloadSongMenuItem" mnemonicParsing="false" onAction="#reLoadSong" text="Reload">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            <Menu fx:id="recentMenu" mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#saveSong" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#saveSongAs" text="Save As…">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadSample" text="LoadSample" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportSample" text="Export Sample" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportAllSamples" text="Export all Samples" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#reinitAudioSystem" text="Reinit Audio System" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Song">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#playSong" text="Play whole Song F2" />
+                  <MenuItem mnemonicParsing="false" onAction="#playSong" text="Play Sequence" />
+                  <MenuItem mnemonicParsing="false" onAction="#playFromPosition" text="Play from actual Position" />
+                  <MenuItem mnemonicParsing="false" onAction="#playPositionEndless" text="Play Position Endless" />
+                  <MenuItem mnemonicParsing="false" onAction="#playPositionEndless" text="Play Pattern Endless" />
+                  <MenuItem mnemonicParsing="false" onAction="#stopSong" text="Stop F3" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Sample">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadSample" text="Load">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <Menu fx:id="recentSampleMenu" mnemonicParsing="false" text="Recent" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportSample" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#reloadSample" text="Reload" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearSample" text="Clear" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" onAction="#rebuildAllVirtualSamples" text="Rebuild all Virtual Samples" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <CheckMenuItem fx:id="javaSampleImporter" mnemonicParsing="false" text="Java Sample Importer" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadWithDefaultProgramm" text="Load with default Programm" />
+              </items>
+            </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#Add2Voices" text="Add 2 Voices" />
+            <MenuItem mnemonicParsing="false" onAction="#doubleRowlength" text="Double Rowlength" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="View">
+              <items>
+                  <CheckMenuItem fx:id="darkModeMenuItem" mnemonicParsing="false" onAction="#toogleDarkMode" text="Dark Mode" />
+                  <MenuItem mnemonicParsing="false" onAction="#showEventDesigner" text="Event Designer">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <CheckMenuItem fx:id="showRoomDesignerMenuItem" mnemonicParsing="false" onAction="#showRoomDesigner" text="Room Designer" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <CheckMenuItem fx:id="updatePatternMenuItem" mnemonicParsing="false" text="Update Playing Position" />
+              </items>
+            </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <SplitPane fx:id="songInstrPatternSplitter" dividerPositions="0.3" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+        <AnchorPane fx:id="mainPane">
+          <children>
+            <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="-1.0" minWidth="60.0" prefHeight="42.0" prefWidth="358.0" style="&#10;" text="Symphonie" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <font>
+                <Font size="22.0" fx:id="x1" />
+              </font>
+            </Label>
+                  <SplitPane fx:id="songDetailSplitter" dividerPositions="0.6378178835110746" layoutX="8.0" layoutY="41.0" orientation="VERTICAL" prefHeight="594.0" prefWidth="518.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TabPane layoutY="89.0" prefHeight="286.0" prefWidth="382.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
+                                <tabs>
+                                  <Tab text="System">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="volumeButton" layoutX="-3.0" layoutY="13.0" mnemonicParsing="false" onAction="#setDefaultVolume" text="Volume" />
+                                                <Button fx:id="tuneButton" layoutX="-1.0" layoutY="52.0" mnemonicParsing="false" onAction="#setDefaultTune" text="Tune" />
+                                                <Button fx:id="bpmButton" layoutX="-3.0" layoutY="93.0" mnemonicParsing="false" onAction="#setDefaultBpm" text="Bpm%" />
+                                                <Slider fx:id="volumeSlider" layoutX="100.0" layoutY="12.0" max="125.0" prefHeight="14.0" prefWidth="230.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0" />
+                                                <Slider fx:id="tuneSlider" blockIncrement="1.0" layoutX="100.0" layoutY="50.0" majorTickUnit="3.0" max="12.0" min="-12.0" minorTickCount="1" prefHeight="14.0" prefWidth="97.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0" />
+                                                <Slider fx:id="bpmSlider" layoutX="100.0" layoutY="91.0" max="200.0" min="50.0" minorTickCount="10" prefHeight="14.0" prefWidth="165.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0" />
+                                                <Slider fx:id="sampleDiffSlider" layoutX="100.0" layoutY="147.0" prefHeight="14.0" prefWidth="165.0" showTickMarks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0" />
+                                                <Slider fx:id="pitchDiffSlider" layoutX="100.0" layoutY="174.0" prefHeight="14.0" prefWidth="165.0" showTickMarks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0" />
+                                                <Button fx:id="sampleDiffButton" layoutY="140.0" mnemonicParsing="false" onAction="#setDefaultSampleDiff" text="Sample Diff" />
+                                                <Button fx:id="pitchDiffButton" layoutY="169.0" mnemonicParsing="false" onAction="#setDefaultPitchDiff" text="Pitch Diff" />
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab text="Sound">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <HBox layoutX="9.0" layoutY="154.0" prefHeight="42.0" prefWidth="459.0" spacing="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" />
+                                                <HBox layoutX="8.0" layoutY="147.0" prefHeight="49.0" prefWidth="465.0" spacing="4.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="4.0" />
+                                                <GridPane layoutX="14.0" prefHeight="138.0" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" />
+                                                    <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <ChoiceBox fx:id="interpolationChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <ChoiceBox fx:id="ditheringChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                      <Label text="Dithering" GridPane.rowIndex="4" />
+                                                      <CheckBox fx:id="anticlickActivatedCheckbox" mnemonicParsing="false" text="Anticlick" GridPane.rowIndex="3" />
+                                                      <Slider fx:id="anticlickSlider" max="500.0" prefHeight="38.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                                                      <Label alignment="CENTER_RIGHT" text="Samples" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                      <Label text="Interpolation" GridPane.rowIndex="2" />
+                                                      <Label text="Device" />
+                                                      <Label text="Buffer" GridPane.columnIndex="2" />
+                                                      <ChoiceBox fx:id="audioDeviceChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                                                      <ComboBox fx:id="bufferLenComboBox" prefWidth="150.0" GridPane.columnIndex="3" />
+                                                   </children>
+                                                </GridPane>
+                                             </children></AnchorPane>
+                                    </content>
+                                  </Tab>
+                                    <Tab text="Dsp">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <ChoiceBox fx:id="dspChoice" layoutX="11.0" layoutY="14.0" prefWidth="150.0" />
+                                                <Button fx:id="feedbackResetButton" layoutX="6.0" layoutY="48.0" mnemonicParsing="false" text="Feedback%" />
+                                                <Button fx:id="dspResetFramesButton" layoutX="6.0" layoutY="92.0" mnemonicParsing="false" text="Frames" />
+                                                <Slider fx:id="dspFeedbackSlider" layoutX="89.0" layoutY="54.0" prefHeight="14.0" prefWidth="182.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="0.0" />
+                                                <Slider fx:id="dspFrames" layoutX="120.0" layoutY="97.0" prefHeight="14.0" prefWidth="182.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="0.0" />
+                                             </children></AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab text="EQ">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <GridPane layoutX="14.0" layoutY="14.0" prefHeight="169.0" prefWidth="318.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="120.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <CheckBox fx:id="eqActivatedCheckBox" mnemonicParsing="false" text="Activate" />
+                                                      <Label text="Low" GridPane.rowIndex="1" />
+                                                      <Label text="Middle" GridPane.rowIndex="2" />
+                                                      <Label text="High" GridPane.rowIndex="3" />
+                                                      <Label text="LP Frequency" GridPane.rowIndex="4" />
+                                                      <Label text="HP Frequency" GridPane.rowIndex="5" />
+                                                      <Slider fx:id="eqLowIntensitySlider" min="-50.0" prefHeight="14.0" prefWidth="104.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                                                      <Slider fx:id="eqMidIntensitySlider" min="-50.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                                                      <Slider fx:id="eqHighIntensitySlider" min="-50.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                                                      <Slider fx:id="eqLPFrequencySlider" majorTickUnit="100.0" max="1200.0" min="200.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                                                      <Slider fx:id="eqHPFrequencySlider" majorTickUnit="1000.0" max="12000.0" min="2000.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                                                      <Button mnemonicParsing="false" onAction="#resetEQToDefault" text="Reset to Default" GridPane.columnIndex="2" />
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab text="Log">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <ListView fx:id="logList" layoutX="48.0" layoutY="8.0" prefHeight="200.0" prefWidth="230.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutY="189.0" mnemonicParsing="false" onAction="#clearLog" text="Clear" AnchorPane.bottomAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab text="Test">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <GridPane fx:id="testGridPane" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                              <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <Button fx:id="loadButton" minWidth="30.0" mnemonicParsing="false" onAction="#loadMod" text="Load" />
+                                    <Button fx:id="playButton" minWidth="30.0" mnemonicParsing="false" onAction="#playSong" text="Play" />
+                                    <Button minWidth="30.0" mnemonicParsing="false" onAction="#stopSong" text="Stop" />
+                                    <Button minWidth="30.0" mnemonicParsing="false" onAction="#continuePlayingSong" text="Continue" />
+                                 </items>
+                              </ToolBar>
+                              <ToolBar layoutY="37.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0">
+                                 <items>
+                                    <Button fx:id="renderToFileButton" mnemonicParsing="false" onAction="#renderToFile" text="Render" />
+                                    <Spinner fx:id="songBpmSpinner" minWidth="50.0" prefHeight="26.0" prefWidth="85.0" />
+                                    <ChoiceBox fx:id="sampleRateChoice" />
+                                    <ChoiceBox fx:id="oversampleChoice" disable="true" />
+                                 </items>
+                              </ToolBar>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="390.0" prefWidth="209.0">
+                           <children>
+                              <SplitPane fx:id="sequencePositionsSplitter" dividerPositions="0.5" orientation="VERTICAL" prefHeight="246.0" prefWidth="221.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <TabPane layoutX="10.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <tabs>
+                                              <Tab text="Position List">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <ListView fx:id="positionList" layoutX="-8.0" layoutY="-48.0" prefHeight="200.0" prefWidth="228.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                                <Tab text="Sequence List">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <ListView fx:id="sequenceList" prefHeight="200.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children></AnchorPane>
+                                                  </content>
+                                                </Tab>
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <TabPane layoutX="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <tabs>
+                                              <Tab text="Position">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <GridPane fx:id="positionDetailGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="6.0" prefWidth="12.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <opaqueInsets>
+                                                                  <Insets left="22.0" />
+                                                               </opaqueInsets>
+                                                            </GridPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                                <Tab text="Sequence">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                  </content>
+                                                </Tab>
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+                  <ProgressIndicator fx:id="progressIndicator" layoutX="330.0" opacity="0.65" prefWidth="27.0" progress="0.0" scaleY="0.8" AnchorPane.rightAnchor="0.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane>
+          <children>
+            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" wrapText="false" />
+                  <SplitPane fx:id="instrumentPatternSplitter" dividerPositions="0.5" layoutX="68.0" layoutY="41.0" orientation="VERTICAL" prefHeight="547.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <SplitPane fx:id="instrumentWaveformSplitter" dividerPositions="0.1621923937360179" prefHeight="272.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <TabPane prefHeight="270.0" prefWidth="228.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <tabs>
+                                              <Tab text="Instruments">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <ListView fx:id="instrumentList" layoutX="6.0" prefHeight="239.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TabPane fx:id="patternTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <tabs>
+                                  <Tab onSelectionChanged="#scopeViewSelected" text="Visuals">
+                                    <content>
+                                      <AnchorPane fx:id="visualsPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Canvas fx:id="renderVisualizeCanvas" height="200.0" layoutX="6.0" width="403.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children></AnchorPane>
+                                    </content>
+                                  </Tab>
+                                    <Tab onSelectionChanged="#patternViewSelected" text="Pattern">
+                                      <content>
+                                        <AnchorPane fx:id="patternPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Label layoutX="73.0" layoutY="6.0" text="Nr" />
+                                                <Spinner fx:id="patternNrSpinner" editable="true" layoutX="92.0" layoutY="2.0" prefWidth="73.0" />
+                                                <ToggleButton fx:id="recordToogle" layoutY="3.0" mnemonicParsing="false" text="Record" />
+                                                <Label layoutX="179.0" layoutY="7.0" text="Step" />
+                                                <Spinner fx:id="patternStep" layoutX="209.0" layoutY="3.0" prefWidth="64.0" />
+                                                <Button fx:id="duplicateButton" layoutX="543.0" layoutY="3.0" mnemonicParsing="false" onAction="#DuplicatePattern" text="Duplicate" />
+                                                <ToggleButton fx:id="playToggle" layoutX="498.0" layoutY="3.0" mnemonicParsing="false" onAction="#playPatternEndless" text="Play" />
+                                                <ScrollPane fx:id="patternScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0" />
+                                                <Label layoutX="279.0" layoutY="7.0" text="Len" />
+                                                <Spinner fx:id="eventLength" layoutX="304.0" layoutY="2.0" prefHeight="26.0" prefWidth="64.0" />
+                                                <Label layoutX="380.0" layoutY="5.0" text="Tune" />
+                                                <Spinner fx:id="patternTune" layoutX="418.0" layoutY="2.0" prefHeight="26.0" prefWidth="64.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab text="Untitled Tab">
+                                      <content>
+                                        <AnchorPane fx:id="testPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                      </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label fx:id="statusText" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+        </Label>
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
