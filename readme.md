@@ -1,22 +1,21 @@
 SymphonieFx (c) Patrick Meng 2021 is a JavaFx implemention of Symphonie developed in the 90s for Amiga Computers.
 No warranty of any kind given. You use this software at your own risk. This is freeware and opensource.
 You may use parts of the sourcecode in your own projects.
+
 https://github.com/patricklyte/SymphonieFx/wiki
 
-Original software is
+Original software is at
 http://aminet.net/package/mus/edit/Symphonie
 
 Songs can be found at
 http://aminet.net/search?query=symphonie
 
-The vsthost lib is used for vst instrument support
-supporting 64 and 32 Bit Vst Instruments of version 2.x 
-To be able to use Vst instruments on Windows you have to copy the 2 interface dll 
-jvsthost2_64.dll and jvsthost2.dll to c:\windows\system32 Depending on which java 
-release(32 or 64 Bit) is used to start SymphonieFx,  Vst32 or Vst64 bit instruments are supportet.
 
+The vsthost lib is used for vst instrument support supporting 64 and 32 Bit Vst Instruments of version 2.x 
 
-VSTHOST https://github.com/mhroth/jvsthost 
+Vsthost is located in SymphonieFx/src/main/java/com/synthbot/
+
+Origin https://github.com/mhroth/jvsthost 
 
 /*
  *  Copyright 2007 - 2009 Martin Roth (mhroth@gmail.com)
@@ -40,9 +39,14 @@ VSTHOST https://github.com/mhroth/jvsthost
  */
   
   
-FLAC https://www.nayuki.io/page/flac-library-java
-
+  
 The following lib is used for flac encoding of audio rendering of songs
+
+Located in SymphonieFx/src/main/java/io/nayuki/
+
+Origin https://www.nayuki.io/page/flac-library-java
+
+
 /* 
  * FLAC library (Java)
  * 
