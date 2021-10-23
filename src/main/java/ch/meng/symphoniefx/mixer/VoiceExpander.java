@@ -79,7 +79,7 @@ public class VoiceExpander {
     }
 
     public String getMuteStatus() {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append("\nInstruments enabled ");
         for (SymphonieInstrument instrument : song.getInstrumentsAsList()) {
             if (!instrument.isMuted()) {
@@ -222,7 +222,7 @@ public class VoiceExpander {
     }
 
     public String getRenderInfo() {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         double time = 1.0 * samplesRendered / mixFrequency;
         text.append(convertBytesToString(samplesRendered / 4))
                 .append(" ")
@@ -233,7 +233,7 @@ public class VoiceExpander {
     }
 
     String getTimeFormatted(double time) {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         int minutes = (int) (time / 60.0);
         double seconds = (time - (minutes * 60.0));
         if(seconds<10) {
@@ -427,13 +427,13 @@ public class VoiceExpander {
     }
 
     public SymphonieInstrument getInstrumentOfVoiceNr(int i) {
-        Voice voice = getVoiceNr(i);
+        final Voice voice = getVoiceNr(i);
         if (voice == null) return null;
         return voice.getInstrument();
     }
 
     public boolean isVoiceWithDspEnabled(int i) {
-        SymphonieInstrument instrument = getInstrumentOfVoiceNr(i);
+        final SymphonieInstrument instrument = getInstrumentOfVoiceNr(i);
         if (instrument == null) return false;
         return instrument.isDspEnabled();
     }
@@ -444,7 +444,7 @@ public class VoiceExpander {
     }
 
     private Voice playKeyboardInstrumentNote(SymphonieInstrument instrument, double freq, double vol) {
-        Voice voice = getFreeVoice();
+        final Voice voice = getFreeVoice();
         if (voice == null
                 || instrument == null
                 || instrument.getSampleChannel() == null
@@ -524,7 +524,7 @@ public class VoiceExpander {
     }
 
     public void SongEventPausePlaying(int VoiceNr) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) {
             voice.pausePlaying();
             voice.Smoother.activateFadeOut();
@@ -532,7 +532,7 @@ public class VoiceExpander {
     }
 
     public void SongEventContinue(int VoiceNr, boolean ActivateFadeIn) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) {
             if (ActivateFadeIn) voice.Smoother.activateFadeIn();
             voice.continuePlaying();
@@ -544,7 +544,7 @@ public class VoiceExpander {
     }
 
     double GetVoiceVolume(int VoiceNr) {
-        Voice v = getVoiceNr(VoiceNr);
+        final Voice v = getVoiceNr(VoiceNr);
         if (v != null) {
             return (v.getVolume());
         }
@@ -552,7 +552,7 @@ public class VoiceExpander {
     }
 
     void SetVoiceVolume(int VoiceNr, double Vol) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) {
             if ((Vol >= 0) && (Vol <= 100)) voice.setVolume(Vol);
         }
@@ -571,12 +571,12 @@ public class VoiceExpander {
     }
 
     public void SetVoicePSlide(int VoiceNr, double PitchChangeSpeed) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) voice.LFOPitch.initSlide(getSlideFactorRelativTo44100Khz() * PitchChangeSpeed);
     }
 
     public void SetVoicePSlideTo(SymphonieInstrument si, int VoiceNr, int Pitch, double PitchChangeSpeed) {
-        Voice v = getVoiceNr(VoiceNr);
+        final Voice v = getVoiceNr(VoiceNr);
         if (v != null) {
             double frequency = getPitchToFreq(VoiceNr, Pitch + si.getTune(), si.getFineTune());
             if (PitchChangeSpeed != 0.0) {
@@ -589,26 +589,26 @@ public class VoiceExpander {
     }
 
     public void stopPitchLFO(int VoiceNr) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) {
             voice.LFOPitch.stop();
         }
     }
 
     public void SetVoiceVSlide(int VoiceNr, double VolChangeSpeed) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if (voice != null) voice.volumeLFO.initSlide(getSlideFactorRelativTo44100Khz() * VolChangeSpeed);
     }
 
     public void stopVolumeLFO(int VoiceNr) {
-        Voice v = getVoiceNr(VoiceNr);
+        final Voice v = getVoiceNr(VoiceNr);
         if (v != null) {
             v.volumeLFO.stop();
         }
     }
 
     void setVoiceFreq(SymphonieInstrument si, int VoiceNr, double freq) {
-        Voice v = getVoiceNr(VoiceNr);
+        final Voice v = getVoiceNr(VoiceNr);
         if ((v != null) && (si.checkReady() == true)) {
             v.setInstrument(si);
             v.setFreq(freq, true);
@@ -617,7 +617,7 @@ public class VoiceExpander {
     }
 
     public void adjustVoiceFreq(final int VoiceNr, final double freqfactor) {
-        Voice v = getVoiceNr(VoiceNr);
+        final Voice v = getVoiceNr(VoiceNr);
         if ((v != null)) {
             v.setFreq(freqfactor * v.getFreq(), false);
         }
@@ -625,7 +625,7 @@ public class VoiceExpander {
 
     void SetVoiceSamplePos(SymphonieInstrument instrument, int VoiceNr, double freq, double SamplePos, boolean doPitch) {
         //logger.debug("instrument=" + instrument.getName() + "SamplePos=" + SamplePos);
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if ((voice != null) && (instrument.checkReady() == true)) {
             voice.setInstrument(instrument);
             InitVoiceEQ(voice, instrument);
@@ -656,7 +656,7 @@ public class VoiceExpander {
 
     // Plays into forced channel Number
     void playKeyboardInstrumentNote(SymphonieInstrument instrument, int VoiceNr, double freq, double volume) {
-        Voice voice = getVoiceNr(VoiceNr);
+        final Voice voice = getVoiceNr(VoiceNr);
         if ((voice != null) && (instrument.checkReady() == true)) {
             if (voice.inUse == true) {
                 voice.Smoother.activateSampleSmoothing();
@@ -749,19 +749,19 @@ public class VoiceExpander {
     }
 
     public void muteVoice(int voiceIndex, final boolean mute) {
-        Voice voice = getVoiceNr(voiceIndex);
+        final Voice voice = getVoiceNr(voiceIndex);
         if (voice != null) voice.setMuted(mute);
     }
 
     public void toggleMuteVoice(int voiceIndex) {
-        Voice voice = getVoiceNr(voiceIndex);
+        final Voice voice = getVoiceNr(voiceIndex);
         if (voice != null) voice.setMuted(!voice.isMuted());
     }
 
     public Set<Integer> getMutedVoices() {
         final Set<Integer> mutedVoices = new HashSet<>();
         int voiceIndex = 0;
-        for(Voice voice : voices) {
+        for(final Voice voice : voices) {
             if(voice!=null && voice.isMuted()) mutedVoices.add(voiceIndex);
             voiceIndex++;
         }
@@ -769,12 +769,12 @@ public class VoiceExpander {
     }
 
     public void toggleMuteAllVoice(int voiceIndex) {
-        Voice voice = getVoiceNr(voiceIndex);
+        final Voice voice = getVoiceNr(voiceIndex);
         setMuteAllVoices(!voice.isMuted());
     }
 
     public boolean isVoiceMuted(int voiceIndex) {
-        Voice voice = getVoiceNr(voiceIndex);
+        final Voice voice = getVoiceNr(voiceIndex);
         if (voice != null) return voice.isMuted();
         return false;
     }
@@ -795,7 +795,7 @@ public class VoiceExpander {
 
     public List<Integer> getPlayingSamplePositionsOfInstrument(SymphonieInstrument instrument) {
         final List<Integer> samplePositions = new Vector<>();
-        for (Voice voice : voices) {
+        for (final Voice voice : voices) {
             if (voice != null
                     && voice.getInstrument() == instrument
                     && !instrument.isMuted()

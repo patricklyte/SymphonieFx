@@ -6,7 +6,7 @@ import ch.meng.symphoniefx.dsp.DspStereoEffect;
 import ch.meng.symphoniefx.mixer.*;
 import ch.meng.symphoniefx.rendering.AudioRenderingController;
 import ch.meng.symphoniefx.song.*;
-import com.sun.jmx.remote.internal.ArrayQueue;
+
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -1632,8 +1632,7 @@ public class MainController {
         return fileChooser.showSaveDialog(stage);
     }
 
-
-    ArrayQueue<String> lastFilesHistory = new ArrayQueue<>(LAST_OPENED_FILES_MAX);
+    List<String> lastFilesHistory = new Vector<>(LAST_OPENED_FILES_MAX);
     private void addToFileHistory(final String filename) {
         if (LAST_OPENED_FILES_MAX == lastFilesHistory.size()) lastFilesHistory.remove(0);
         if (lastFilesHistory.size() > 0 && lastFilesHistory.get(lastFilesHistory.size() - 1).equals(filename)) return;
@@ -1648,7 +1647,7 @@ public class MainController {
         saveHistory(lastFilesHistory, FILE_HISTORY);
     }
 
-    ArrayQueue<String> lastSamplesHistory = new ArrayQueue<>(LAST_OPENED_FILES_MAX);
+    List<String> lastSamplesHistory = new Vector<>(LAST_OPENED_FILES_MAX);
     void addToSampleFileHistory(final String filename) {
         if (LAST_OPENED_FILES_MAX == lastSamplesHistory.size()) lastSamplesHistory.remove(0);
         if (lastSamplesHistory.size() > 0 && lastSamplesHistory.get(lastSamplesHistory.size() - 1).equals(filename)) return;
@@ -1663,7 +1662,7 @@ public class MainController {
         saveHistory(lastSamplesHistory, SAMPLE_HISTORY);
     }
 
-    void saveHistory(ArrayQueue<String> history, String id) {
+    void saveHistory(List<String> history, String id) {
         StringBuilder text = new StringBuilder();
         for (String path : history) {
             text.append(path).append(HISTORY_SPLITTER);
@@ -1880,14 +1879,12 @@ public class MainController {
         for (int x = 0; x < width; x++) {
             int index = x * samplesPerChannel / width;
             int left = Math.abs(samples.get(index * 2) * (h / 2) / 32000);
-            //maxVelocity = Math.max(maxVelocity, left);
             gc.strokeLine(x, (h / 2) - left, x, (h / 2) + left);
         }
         gc.setStroke(colors.getVisualizeStereoMixRightColor());
         for (int x = 0; x < width; x++) {
             int index = x * samplesPerChannel / width;
             int right = Math.abs(samples.get((index * 2) + 1) * (h / 2) / 32000);
-            //maxVelocity = Math.max(maxVelocity, right);
             gc.strokeLine(x, (3 * h / 2) - right, x, (3 * h / 2) + right);
         }
     }
@@ -1899,22 +1896,22 @@ public class MainController {
 
     private void visualizeChannelSamples(final GraphicsContext gc, final VoiceExpander voiceExpander) {
         if (voiceExpander == null || voiceExpander.getRenderedBufferPerVoice() == null) return;
-        int width = (int) visualsPane.getWidth();
-        int height = (int) visualsPane.getHeight();
-        int h = height / 8;
+        final int width = (int) visualsPane.getWidth();
+        final int height = (int) visualsPane.getHeight();
+        final int h = height / 8;
         final VisualisationVoice voices = voiceExpander.getRenderedBufferPerVoice();
-        double visualWidth = voices.getNumberOfSamplesPerChannel();
-        double drawOffsetX = width - visualWidth;
+        final double visualWidth = voices.getNumberOfSamplesPerChannel();
+        final double drawOffsetX = width - visualWidth;
         gc.setFill(colors.getWaveformBackgroundColor());
         gc.fillRect(drawOffsetX, height * 0.25, visualWidth, height * 0.75);
         gc.setStroke(colors.getWaveformColor());
         if (!voices.getSamples().isEmpty()) {
-            double voiceH = (height * 0.75) / visibleVoices;
+            final double voiceH = (height * 0.75) / visibleVoices;
             double y = (height * 0.25) + (voiceH / 2);
             for (int voiceIndex = 0; voiceIndex < visibleVoices; voiceIndex++) {
                 for (int sampleIndex = 0; sampleIndex < voices.getNumberOfSamplesPerChannel(); sampleIndex++) {
-                    int sample = Math.abs(voices.getSample(voiceIndex + patternMouseScroll, sampleIndex) * 3 * (h / visibleVoices) / 32000);
-                    double x = drawOffsetX + (sampleIndex * visualWidth) / voices.getNumberOfSamplesPerChannel();
+                    final int sample = Math.abs(voices.getSample(voiceIndex + patternMouseScroll, sampleIndex) * 3 * (h / visibleVoices) / 32000);
+                    final double x = drawOffsetX + (sampleIndex * visualWidth) / voices.getNumberOfSamplesPerChannel();
                     gc.strokeLine(x, y - sample, x, y + sample);
                 }
                 y += voiceH;
@@ -1923,70 +1920,65 @@ public class MainController {
         }
     }
 
+    private int oldFontH = -1;
+    private String font_name ;
+    private Font font;
+    private StringBuilder channelText = new StringBuilder();
     private void visualizeChannelInstruments(final GraphicsContext gc, final VoiceExpander voiceExpander) {
-        double voiceH = (visualsPane.getHeight() * 0.75) / visibleVoices;
+        final double voiceH = (visualsPane.getHeight() * 0.75) / visibleVoices;
         int fontH = (int) (voiceH * 0.75);
         if (fontH > 16) fontH = 16;
         if (fontH < 7) fontH = 7;
-        final String font_name = Font.getDefault().getName();
-        final Font font = Font.font(font_name, FontWeight.BOLD, FontPosture.REGULAR, fontH);
+        if(oldFontH != fontH) {
+            font_name = Font.getDefault().getName();
+            font = Font.font(font_name, FontWeight.BOLD, FontPosture.REGULAR, fontH);
+            oldFontH = fontH;
+        }
         gc.setFont(font);
         double y = (visualsPane.getHeight() * 0.25);
         for (int voiceIndex = 0; voiceIndex < visibleVoices; voiceIndex++) {
-            final StringBuilder text = new StringBuilder();
-            text.append(patternMouseScroll + voiceIndex);
+            channelText = new StringBuilder();
+            channelText.append(patternMouseScroll + voiceIndex);
             final Voice voice = voiceExpander.getVoiceNr(patternMouseScroll + voiceIndex);
             boolean active = false;
             if (voice != null && voice.getInstrument() != null) {
-                text.append(" Instr:").append(voice.getInstrument().getID())
+                channelText.append(" Instr:").append(voice.getInstrument().getID())
                         .append(" ").append(voice.getInstrument().getShortDescription());
                 active = true;
             }
-            text.append(" Vol:").append((int) voice.getVolume());
-
-
-            //if(voice.getFilterFX() != null && voice.getFilterFX().isActive()) text.append(", " + voice.getFilterFX().getShortDescription());
-
-            drawVoiceInstrument(gc, 0, (int) y, active, voice.getInstrument(), text.toString());
-//            gc.setFill(colors.getVolumeBackgroundColor());
-//            gc.fillRect(visualsPane.getWidth()-60, (int) y, 2, voiceH * voice.getVolume() / 200.0);
-
+            channelText.append(" Vol:").append((int) voice.getVolume());
+            drawVoiceInstrument(gc, 0, (int) y, active, voice.getInstrument(), channelText.toString());
             y += voiceH;
         }
     }
 
+    static final Color textColorVirtual = new Color(0.40, 0.40, 1.0, 1.0);
+    static final Color textColorDsp = new Color(0.70, 0.60, 0.95, 1.0);
+    static final Color textColorNrm = new Color(1.0, 0.90, 0.75, 1.0);
     private void drawVoiceInstrument(final GraphicsContext gc, final int x, final int y, final boolean active, final SymphonieInstrument instrument, final String text) {
-        float width = getTextWidth(gc, text);
-        float height = getTextHeight(gc, text);
-        final Text internal = new Text();
-        internal.setFont(gc.getFont());
-        internal.setText(text);
-        final Bounds bounds = internal.getLayoutBounds();
-        gc.setFill(blackTransparentColor);
-        gc.fillRect(x, y, width + 8, height);
+        Color textColor;
         if (active) {
             if (instrument.isVirtualMix()) {
-                gc.setFill(new Color(0.40, 0.40, 1.0, 1.0));
+                textColor = textColorVirtual;
             } else if (instrument.isDspEnabled()) {
-                gc.setFill(new Color(0.70, 0.60, 0.95, 1.0));
+                textColor = textColorDsp;
             } else {
-                gc.setFill(new Color(1.0, 0.90, 0.75, 1.0));
+                textColor = textColorNrm;
             }
-
         } else {
-            gc.setFill(Color.WHITE);
+            textColor = Color.WHITE;
         }
-        gc.fillText(text, x + 2, y - bounds.getMinY());
-
+        SharedStatic.drawTextWithBackground(gc,x,y, text, textColor, blackTransparentColor);
     }
 
+    private WritableImage tempImage;
+    final SnapshotParameters params = new SnapshotParameters();
     private void scrollPaneContent(final GraphicsContext gc, final int width, final int height, final int visualWidth) {
-        int h2 = (int) (height * 0.75);
-        int y = (int) (height * (1.0 - 0.75));
-        final SnapshotParameters params = new SnapshotParameters();
+        final int h2 = (int) (height * 0.75);
+        final int y = (int) (height * (1.0 - 0.75));
         params.setFill(Color.BLACK);
         params.setViewport(new Rectangle2D(visualWidth, y, width - visualWidth, h2));
-        final WritableImage tempImage = renderVisualizeCanvas.snapshot(params, null);
+        tempImage = renderVisualizeCanvas.snapshot(params, null);
         gc.drawImage(tempImage, 0, y);
     }
 

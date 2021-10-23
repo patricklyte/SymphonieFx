@@ -23,11 +23,14 @@ public class LightColorSet implements ColorSet{
     public Paint getLoopTextColor() {return Color.color(0.0,0.0,1.0,1.0);}
     public Paint getWaveformSamplePositionColor(){return Color.WHITE;}
 
-    public Color backgroundColor(){return Color.color(1.0,1.0,1.0,1.0);}
+    static final Color backgroundColor = new Color(1.0,1.0,1.0,1.0);
+    public Color getBackgroundColor(){return backgroundColor;}
 
-    public Color getVisualizeStereoMixLeftColor(){return new Color(0.5, 0.5, 1.0, 1.0);}
+    static final Color visualizeStereoMixLeftColor = new Color(0.5, 0.5, 1.0, 1.0);
+    public Color getVisualizeStereoMixLeftColor(){return visualizeStereoMixLeftColor;}
 
-    public Color getVisualizeStereoMixRightColor(){return new Color(1.0, 0.5, 0.5, 1.0);}
+    static final Color visualizeStereoMixRightColor = new Color(1.0, 0.5, 0.5, 1.0);
+    public Color getVisualizeStereoMixRightColor(){return visualizeStereoMixRightColor;}
 
     final static Background background = new Background(new BackgroundFill(Color.color(1.0,1.0,1.0,1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
     public Background background(){return background;}

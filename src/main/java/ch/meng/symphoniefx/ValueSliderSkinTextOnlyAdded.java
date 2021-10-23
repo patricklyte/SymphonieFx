@@ -1,8 +1,8 @@
 package ch.meng.symphoniefx;
 
-import com.sun.javafx.scene.control.skin.SliderSkin;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Slider;
+import javafx.scene.control.skin.SliderSkin;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -69,12 +69,12 @@ public class ValueSliderSkinTextOnlyAdded extends SliderSkin {
         final int temp = (int) getSkinnable().getValue();
         return (temp != getSkinnable().getValue());
     }
-
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-        updateText();
-    }
+//
+//    @Override
+//    protected void handleControlPropertyChanged(String p) {
+//        super.handleControlPropertyChanged(p);
+//        updateText();
+//    }
 
     private void updateText() {
         Bounds bounds = thumb.getBoundsInParent();

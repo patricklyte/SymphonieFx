@@ -1,7 +1,7 @@
 package ch.meng.symphoniefx;
 
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -56,12 +56,12 @@ public class ToogleEnhancedSkin extends ToggleButtonSkin {
         updateVisual();
     }
 
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-        updateVisual();
-        //this.queryAccessibleAttribute();
-    }
+//    @Override
+//    protected void handleControlPropertyChanged(String p) {
+//        super.handleControlPropertyChanged(p);
+//        updateVisual();
+//        //this.queryAccessibleAttribute();
+//    }
 
     private void updateVisual() {
         valueRect.setTranslateX(getSkinnable().getTranslateX()+2);

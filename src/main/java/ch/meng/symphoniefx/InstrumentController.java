@@ -666,17 +666,15 @@ public class InstrumentController {
             vstParameters.setPrefHeight(waveformPane.getHeight() - 70);
         } else {
             visualizeWaveform(actualInstrument);
-
         }
     }
 
     private static final Color colorGreen = Color.color(0.5, 1.0, 0.0, 1.0);
     private static final Color colorRed = Color.color(1.0, 0.0, 0.0, 1.0);
-
     void visualizeWaveform(final SymphonieInstrument instrument) {
         adjustWavefromLayout();
         playingSamplePositionsOfVoice.clear();
-        GraphicsContext gc = instrumentWaveformCanvas.getGraphicsContext2D();
+        final GraphicsContext gc = instrumentWaveformCanvas.getGraphicsContext2D();
         gc.setFill(colors.getWaveformBackgroundColor());
         gc.fillRect(0, 0, instrumentWaveformCanvas.getWidth(), instrumentWaveformCanvas.getWidth());
         if (instrument == null || !instrument.hasContent()) return;
@@ -759,7 +757,7 @@ public class InstrumentController {
     int lastNumberOfPlayingSamples = 0;
 
     private void drawInstrumentName(final GraphicsContext gc, final SymphonieInstrument instrument) {
-        float width = getTextWidth(gc, instrument.toString());
+        double width = getTextWidth(gc, instrument.toString());
         if (instrument.isVirtualSample()) {
             gc.setFill(Color.DARKBLUE);
         } else {

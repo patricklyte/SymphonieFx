@@ -1,14 +1,9 @@
 package ch.meng.symphoniefx;
 
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 public class ToggleSkinEnhancedWithBlueFrame extends ToggleButtonSkin {
 
@@ -33,11 +28,11 @@ public class ToggleSkinEnhancedWithBlueFrame extends ToggleButtonSkin {
         updateVisual();
     }
 
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-        updateVisual();
-    }
+//    @Override
+//    protected void handleControlPropertyChanged(String p) {
+//        super.handleControlPropertyChanged(p);
+//        updateVisual();
+//    }
 
     private static final Color fillColor = new Color(0.0,0.0,1,0.15);
     private void updateVisual() {

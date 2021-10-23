@@ -5,6 +5,7 @@ import ch.meng.symphoniefx.mixer.VoiceExpander;
 import ch.meng.symphoniefx.song.Song;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
+
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;

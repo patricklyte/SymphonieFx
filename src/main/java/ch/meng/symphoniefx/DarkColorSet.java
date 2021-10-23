@@ -25,7 +25,7 @@ public class DarkColorSet implements ColorSet {
 
     public Paint getWaveformSamplePositionColor(){return Color.WHITE;}
 
-    public Color backgroundColor(){return Color.color(0.0,0.0,0.0,0.8);}
+    public Color getBackgroundColor(){return Color.color(0.0,0.0,0.0,0.8);}
 
     public Color getVisualizeStereoMixLeftColor(){return new Color(0.0, 0.0, 1.0, 1.0);}
 

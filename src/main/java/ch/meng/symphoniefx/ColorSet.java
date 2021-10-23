@@ -16,7 +16,7 @@ public interface ColorSet {
     Paint getLoopTextColor();
 
     Paint getWaveformSamplePositionColor();
-    Color backgroundColor();
+    Color getBackgroundColor();
     Background background();
     Color getVisualizeStereoMixLeftColor();
     Color getVisualizeStereoMixRightColor();

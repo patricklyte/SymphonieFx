@@ -5,8 +5,6 @@
 
 package ch.meng.symphoniefx.mixer;
 
-import com.sun.media.sound.SoftPointResampler;
-
 interface InterpolateSampleType {
     int None = 0;
     int Linear = 1;

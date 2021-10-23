@@ -15,6 +15,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+//        MethodHandle strlen = CLinker.getInstance().downcallHandle(
+//                LibraryLookup.ofDefault().lookup("strlen").get(),
+//                MethodType.methodType(long.class, MemoryAddress.class),
+//                FunctionDescriptor.of(CLinker.C_LONG, CLinker.C_POINTER)
+//        );
+//
+//        try (var cString = CLinker.toCString("Hello")) {
+//            long len = strlen.invokeExact(cString.address()) // 5
+//        }
+
         URL fxml = getClass().getResource("/Symphonie.fxml");
         FXMLLoader loader = new FXMLLoader(fxml);
         Parent parentPane = loader.load();

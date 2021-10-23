@@ -1,31 +1,34 @@
 package ch.meng.symphoniefx;
 
+import com.sun.javafx.tk.FontMetrics;
+import com.sun.javafx.tk.Toolkit;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.io.File;
 
 import static ch.meng.symphoniefx.SharedConst.ILLEGAL_VALUE_PARSED;
 
 public class SharedStatic {
-    public final static Background playingSongBackground = new Background(new BackgroundFill(Color.color(0.9, 0.9, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background playingSongRepeatedBackground = new Background(new BackgroundFill(Color.color(0.9, 0.98, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background prerenderBackground = new Background(new BackgroundFill(Color.color(0.0, 0.99, 0.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background playingSongBackground = new Background(new BackgroundFill(Color.color(0.9, 0.9, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background playingSongRepeatedBackground = new Background(new BackgroundFill(Color.color(0.9, 0.98, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background prerenderBackground = new Background(new BackgroundFill(Color.color(0.0, 0.99, 0.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
 
-    public final static Background errorBackground = new Background(new BackgroundFill(Color.color(1.0, 0.5, 0.5, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background warnBackground = new Background(new BackgroundFill(Color.color(1.0, 1.0, 0.4, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background errorBackgroundLight = new Background(new BackgroundFill(Color.color(1.0, 0.9, 0.9, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background eventDesignerTitleBackground = new Background(new BackgroundFill(Color.color(1.0, 0.9, 0.7, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    public final static Background roomDesignerTitleBackground = new Background(new BackgroundFill(Color.color(1.0, 0.8, 0.7, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background errorBackground = new Background(new BackgroundFill(Color.color(1.0, 0.5, 0.5, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background warnBackground = new Background(new BackgroundFill(Color.color(1.0, 1.0, 0.4, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background errorBackgroundLight = new Background(new BackgroundFill(Color.color(1.0, 0.9, 0.9, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background eventDesignerTitleBackground = new Background(new BackgroundFill(Color.color(1.0, 0.9, 0.7, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    public static final Background roomDesignerTitleBackground = new Background(new BackgroundFill(Color.color(1.0, 0.8, 0.7, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
 
-    public final static Color errorColor = Color.color(1.0, 0.5, 0.5, 1.0);
-    public final static Color rowNrTextColor = Color.color(0.0, 0.0, 0.0, 1.0);
-    public final static Color rowMarkerColor = Color.color(1.0, 0.0, 0.99, 1.0);
+    public static final Color errorColor = Color.color(1.0, 0.5, 0.5, 1.0);
+    public static final Color rowNrTextColor = Color.color(0.0, 0.0, 0.0, 1.0);
+    public static final Color rowMarkerColor = Color.color(1.0, 0.0, 0.99, 1.0);
 
-    public final static String convertBytesToString(long bytes) {
+    public static String convertBytesToString(long bytes) {
         if (bytes < 0) return "Negative Number:" + bytes;
         if (bytes <= 9999) return bytes + " bytes";
         bytes = bytes / 1024;
@@ -40,24 +43,24 @@ public class SharedStatic {
         return bytes + " PB";
     }
 
-    public final static String directoryDelimiter() {
+    public static String directoryDelimiter() {
         return File.separator;
     }
 
-    public final static String getRightPartOf(String text, String cutPosition) {
-        int pos = text.lastIndexOf(":");
+    public static String getRightPartOf(String text, String cutPosition) {
+        final int pos = text.lastIndexOf(":");
         if(pos > -1) text = text.substring(pos+1);
         return text;
     }
 
-    public final static String removeDirectoryFromFileName(String instrumentName) {
+    public static String removeDirectoryFromFileName(String instrumentName) {
         instrumentName = getRightPartOf(instrumentName, ":");
         instrumentName = getRightPartOf(instrumentName, "/");
         instrumentName = getRightPartOf(instrumentName, "\\");
         return instrumentName;
     }
 
-    public final static double parseDouble(String text) {
+    public static double parseDouble(String text) {
         try {
             return Double.parseDouble(text);
         } catch (Exception ignore) {
@@ -65,16 +68,51 @@ public class SharedStatic {
         return ILLEGAL_VALUE_PARSED;
     }
 
-    public final static float getTextWidth(final GraphicsContext gc, final String text) {
+    public static double getTextHeight2(final GraphicsContext gc, final String text) {
+        FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(gc.getFont());
+        return metrics.getLineHeight();
+//        // get metrics from the graphics
+        //FontMetrics metrics = graphics.getFontMetrics(font);
+//// get the height of a line of text in this
+//// font and render context
+//        int hgt = metrics.getHeight();
+//// get the advance of my text in this font
+//// and render context
+//        int adv = metrics.stringWidth(text);
+//        if(text.isEmpty()) return 0.0f;
+//        return text.length() * 12;
+    }
+
+    public static double getTextWidth(final GraphicsContext gc, final String text) {
         if(text.isEmpty()) return 0.0f;
-        return com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().computeStringWidth(text, gc.getFont());
+        final Text internal = new Text();
+        internal.setFont(gc.getFont());
+        internal.setText(text);
+        return internal.getLayoutBounds().getWidth();
     }
 
-    public final static float getTextHeight(final GraphicsContext gc, String text) {
-        return com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().getFontMetrics(gc.getFont()).getLineHeight();
+    public static double getTextHeight(final GraphicsContext gc, final String text) {
+        if(text.isEmpty()) return 0.0f;
+        final Text internal = new Text();
+        internal.setFont(gc.getFont());
+        internal.setText(text);
+        return internal.getLayoutBounds().getHeight();
     }
 
-    public final static float getTextBaseline(GraphicsContext gc, String text) {
-        return com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().getFontMetrics(gc.getFont()).getBaseline();
+    private static final Text tempText = new Text();
+    static void drawTextWithBackground(final GraphicsContext gc,
+                                       final int x,
+                                       final int y,
+                                       final String text,
+                                       final Color textColor,
+                                       final Color backgroundColor) {
+        if(text.isEmpty()) return;
+        tempText.setFont(gc.getFont());
+        tempText.setText(text);
+        gc.setFill(backgroundColor);
+        gc.fillRect(x, y, tempText.getLayoutBounds().getWidth() + 4, tempText.getLayoutBounds().getHeight());
+        gc.setFill(textColor);
+        gc.fillText(text, x + 2, y+tempText.getLayoutBounds().getHeight()-2 );
     }
+
 }
