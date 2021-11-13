@@ -762,10 +762,12 @@ public class SymphonieInstrument {
         return tuneCorrection;
     }
 
+    boolean anonymizeSampleNames = false;
+
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder();
-        text.append(getName());
+        if(!anonymizeSampleNames) text.append(getName());
         if(instrumentSource.equals(InstrumentSource.Vst)) {
             text.append(" VST Instrument");
             return text.toString();

@@ -1,13 +1,10 @@
 package ch.meng.symphoniefx;
 
-import ch.meng.symphoniefx.song.Position;
 import ch.meng.symphoniefx.song.Song;
 import ch.meng.symphoniefx.song.SongEvent;
-import ch.meng.symphoniefx.song.SongEventPool;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableColumn;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,21 +13,16 @@ import javafx.scene.text.FontWeight;
 import org.apache.log4j.Logger;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 public class PatternController {
-    private final static Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
     private Song song;
     private final Spinner<Integer> patternNrSpinner;
     private final Spinner<Integer> patternStep;
     private final Spinner<Integer> eventLength;
     private final Spinner<Integer> patternTune;
-    private final AnchorPane patternPane;
-    private final PatternContextMenuController contextMenuController;
     private final MainController mainController;
-    final ScrollPane patternScrollPane;
     final NewPatternView newPatternView;
 
     PatternController(final Song song,
@@ -42,16 +34,13 @@ public class PatternController {
                       final MainController mainController,
                       final ScrollPane patternScrollPane
     ) {
-        this.patternPane = patternPane;
         this.mainController = mainController;
         this.eventLength = eventLength;
         this.patternTune = patternTune;
         this.song = song;
         this.patternNrSpinner = patternNrSpinner;
         this.patternStep = patternStep;
-        this.patternScrollPane = patternScrollPane;
         initPatternViewUI();
-        contextMenuController = new PatternContextMenuController(this, patternScrollPane);
         newPatternView = new NewPatternView(patternPane, patternScrollPane, this);
         newPatternView.setSong(song);
     }
@@ -65,7 +54,7 @@ public class PatternController {
         newPatternView.visualizeKeyOn(notesPlayingfinal, beatLength);
     }
 
-    void notifyCrsrMoved(int x, int y) {
+    void notifyCrsrMoved(final int x, final int y) {
         patternX = x;
         patternY = y;
         mainController.notifyPatternCrsrMoved();
@@ -73,9 +62,6 @@ public class PatternController {
 
     void shutdown() {
         this.song = null;
-//        this.patternPane = null;
-//        this.mainController = null;
-//        this.contextMenuController = null;
     }
 
     public void setSong(final Song song) {
@@ -95,19 +81,15 @@ public class PatternController {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 32, 4, 1);
         patternStep.setValueFactory(valueFactory);
         patternStep.setEditable(true);
-        patternStep.valueProperty().addListener((observable, oldValue, newValue) -> {
-            newPatternView.buildContent();
-        });
+        patternStep.valueProperty().addListener((observable, oldValue, newValue) -> newPatternView.buildContent());
     }
 
     private void initPatternNr() {
-        SpinnerValueFactory<Integer> valueFactory =
+        final SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, song.getNumberOfPatterns(), 0, 1);
         patternNrSpinner.setValueFactory(valueFactory);
         patternNrSpinner.setEditable(true);
-        patternNrSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            moveToPattern(newValue, false);
-        });
+        patternNrSpinner.valueProperty().addListener((observable, oldValue, newValue) -> moveToPattern(newValue, false));
         patternNrSpinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 if (newValue.isEmpty()) return;
@@ -119,15 +101,13 @@ public class PatternController {
         });
     }
 
-    private void initSpinner(Spinner<Integer> spinner, int min, int max) {
-        SpinnerValueFactory<Integer> valueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, 0, 1);
-        spinner.setValueFactory(valueFactory);
+    private void initSpinner(final Spinner<Integer> spinner, final int min, final int max) {
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, 0, 1));
     }
 
     void addKeyonEvent(final int pitch, final int instrument) {
         int z = getPatternZ();
-        SongEvent event = song.getPattern(z).getPatternVoice((int) newPatternView.getCrsrX())
+        final SongEvent event = song.getPattern(z).getPatternVoice((int) newPatternView.getCrsrX())
                 .getSongEventPool((float) newPatternView.getCrsrY(), true).getSongEvent(true);
         event.setKeyOn(instrument, pitch, 100);
         patternZ = z;
@@ -143,21 +123,20 @@ public class PatternController {
     }
 
     SongEvent getEventAtCrsrPosition() {
-        int x = (int) newPatternView.getCrsrX();
-        int y = (int) newPatternView.getCrsrY();
-        int z = getPatternZ();
+        final int x = (int) newPatternView.getCrsrX();
+        final int y = (int) newPatternView.getCrsrY();
+        final int z = getPatternZ();
         return song.getPattern(z).getPatternVoice(x)
-                .getSongEventPool((float) y, false).getSongEvent(false);
+                .getSongEventPool(y, false).getSongEvent(false);
     }
 
-
-    void addKeyonEventVst(final int pitch, final int instrument, final int offset, int punch, double length) {
+    void addKeyonEventVst(final int pitch, final int instrument, final int offset, final int punch, double length) {
         if (length < 1) length = 1;
-        int x = (int) newPatternView.getCrsrX() + offset;
-        int y = (int) newPatternView.getCrsrY();
-        int z = getPatternZ();
-        SongEvent event = song.getPattern(z).getPatternVoice(x)
-                .getSongEventPool((float) y, true).getSongEvent(true);
+        final int x = (int) newPatternView.getCrsrX() + offset;
+        final int y = (int) newPatternView.getCrsrY();
+        final int z = getPatternZ();
+        final SongEvent event = song.getPattern(z).getPatternVoice(x)
+                .getSongEventPool(y, true).getSongEvent(true);
         event.setKeyOn(instrument, pitch, (float) (100.0 * punch / 127.0));
         if (getEventLength() > 0) length = getEventLength();
         event.setLengthTicks(length);
@@ -165,10 +144,10 @@ public class PatternController {
     }
 
     void setSongEventRelativeToCrsr(final double x, final double y, final SongEvent newevent) {
-        int z = getPatternZ();
-        int eventX = (int) (newPatternView.getCrsrX() + x);
+        final int z = getPatternZ();
+        final int eventX = (int) (newPatternView.getCrsrX() + x);
         if (eventX >= song.getNumbOfVoices()) return;
-        float eventY = (float) (newPatternView.getCrsrY() + y);
+        final float eventY = (float) (newPatternView.getCrsrY() + y);
         if (eventY >= song.getNumbOfRows()) return;
         SongEvent event = song.getPattern(z).getPatternVoice(eventX)
                 .getSongEventPool(eventY, true).getSongEvent(true);
@@ -176,19 +155,17 @@ public class PatternController {
     }
 
     void setSongEventAt(final double x, final double y, final SongEvent newevent) {
-        int z = getPatternZ();
-        ;
+        final int z = getPatternZ();
         if ((getPatternX() + (int) x) >= song.getNumbOfVoices()) return;
         if ((getPatternY() + (int) y) >= song.getNumbOfRows()) return;
-        SongEvent event = song.getPattern(z).getPatternVoice((int) x)
+        final SongEvent event = song.getPattern(z).getPatternVoice((int) x)
                 .getSongEventPool((float) y, true).getSongEvent(true);
         event.set(newevent);
     }
 
     void setSongEventRelativeTo(final double offsetX, final double offsetY,
                                 final double x, final double y, final SongEvent newevent) {
-        int z = getPatternZ();
-        ;
+        final int z = getPatternZ();
         if ((offsetX + (int) x) >= song.getNumbOfVoices()) return;
         if ((offsetY + (int) y) >= song.getNumbOfRows()) return;
         SongEvent event = song.getPattern(z).getPatternVoice((int) (offsetX + x))
@@ -197,39 +174,30 @@ public class PatternController {
     }
 
     void setEventAtCrsr(final SongEvent songEvent) {
-        int z = getPatternZ();
-        ;
-        SongEvent event = song.getPattern(z).getPatternVoice(getPatternX())
-                .getSongEventPool((float) getPatternY(), true).getSongEvent(true);
+        final SongEvent event = song.getPattern(getPatternZ()).getPatternVoice(getPatternX())
+                .getSongEventPool(getPatternY(), true).getSongEvent(true);
         event.set(songEvent);
         newPatternView.rebuildVoiceVisual(getPatternX());
     }
 
     void clearEventAtCrsr() {
-        int z = getPatternZ();
-        ;
-        song.getPattern(z).getPatternVoice((int) newPatternView.getCrsrX()).removeEvents((float) newPatternView.getCrsrY());
+        song.getPattern(getPatternZ()).getPatternVoice((int) newPatternView.getCrsrX()).removeEvents((float) newPatternView.getCrsrY());
         newPatternView.rebuildVoiceVisual((int) newPatternView.getCrsrX());
     }
 
     void clearEvent(final int x, final int y) {
-        int z = getPatternZ();
-        ;
-        song.getPattern(patternNrSpinner.getValue()).getPatternVoice(x).removeEvents((float) y);
+        song.getPattern(patternNrSpinner.getValue()).getPatternVoice(x).removeEvents(y);
     }
 
     private int patternX = 0;
     private int patternY = 0;
     private int patternZ = 0;
-
     public int getPatternX() {
         return patternX;
     }
-
     public int getPatternY() {
         return patternY;
     }
-
     public int getPatternZ() {
         if (patternZ != patternNrSpinner.getValue()) {
             logger.debug("patternZ != patternNrSpinner.getValue()" + patternZ + " " + patternNrSpinner.getValue());
@@ -248,7 +216,6 @@ public class PatternController {
         newPatternView.muteAllVoices(mute);
     }
 
-
     private void addGlobalFunctionKeys(KeyEvent event, Song song) {
         if (event.getCode().equals(KeyCode.SPACE)) mainController.tooglePlaySong();
         if (event.getCode().equals(KeyCode.F1)) mainController.instrumentController.loadSample();
@@ -263,7 +230,7 @@ public class PatternController {
     }
 
     private boolean markingBlock;
-    private PatternBlock patternBlock = new PatternBlock(song, this);
+    private final PatternBlock patternBlock = new PatternBlock(song, this);
 
     PatternBlock getPatternBlock() {
         return patternBlock;
@@ -323,27 +290,16 @@ public class PatternController {
         patternNrDisplayed = -1;
     }
 
-    int patternNrDisplayed = -1;
-    List<TableColumn<PatternRow, SongEventPool>> columns = new Vector<>();
-
-    void setRebuildColumns() {
-        columns.clear();
-    }
-
-    int zoom = 18;
+    private int patternNrDisplayed = -1;
+    private int zoom = 18;
     private final int oldZoom = -1;
     private Font tableFont;
-
     private Font getTableFont() {
         if (zoom != oldZoom) {
             int fontsize = 6 + (zoom / 3);
             tableFont = Font.font(null, FontWeight.BOLD, fontsize);
         }
         return tableFont;
-    }
-
-    private void print(String text) {
-        logger.debug(text);
     }
 
     void blockClear(final BlockDestination blockDestination) {
@@ -383,7 +339,6 @@ public class PatternController {
         patternBlock.copy();
     }
 
-
     PatternBlock backupPattern() {
         PatternBlock backup = createPatternBlock();
         backup.copy();
@@ -391,7 +346,7 @@ public class PatternController {
     }
 
     private PatternBlock createPatternBlock() {
-        PatternBlock block = new PatternBlock(song, this);
+        final PatternBlock block = new PatternBlock(song, this);
         block.setxStart(0);
         block.setyStart(0);
         block.setxEnd(song.getNumbOfVoices() - 1);
@@ -402,7 +357,7 @@ public class PatternController {
 
     void duplicatePattern() {
         try {
-            PatternBlock block = createPatternBlock();
+            final PatternBlock block = createPatternBlock();
             block.copy();
             moveToNextPattern();
             block.copyBack();
@@ -422,7 +377,7 @@ public class PatternController {
 
 
     private PatternBlock createTrackBlock() {
-        PatternBlock block = new PatternBlock(song, this);
+        final PatternBlock block = new PatternBlock(song, this);
         block.setxStart(getPatternX());
         block.setyStart(0);
         block.setxEnd(block.getxStart());
@@ -438,6 +393,5 @@ public class PatternController {
             }
         }
     }
-
 
 }

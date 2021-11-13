@@ -6,13 +6,11 @@ import ch.meng.symphoniefx.dsp.DspStereoEffect;
 import ch.meng.symphoniefx.mixer.*;
 import ch.meng.symphoniefx.rendering.AudioRenderingController;
 import ch.meng.symphoniefx.song.*;
-
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -22,19 +20,25 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import symreader.*;
+import symreader.OldSymModFormatImporter;
+import symreader.SampleImporterJavaInternal;
+import symreader.SongIO;
+import symreader.VirtualSampleBuilder;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.util.*;
@@ -48,7 +52,7 @@ import static ch.meng.symphoniefx.SharedStatic.*;
 public class MainController {
     private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
-    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.10";
+    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.11";
     public static final String LASTSONG_KEY = "LASTSONG";
     public static final String SAVE_SONG_AS_PATH = "saveSongAsPath";
     public static final String EVENT_DESIGNER_VISIBLE_KEY = "EventDesignerVisible";
@@ -256,9 +260,7 @@ public class MainController {
     @FXML
     void Add2Voices() {
         song.setNumbOfVoices(song.getNumbOfVoices()+2);
-        patternController.setRebuildColumns();
         patternController.updatePatternViewForce();
-        //patternController.moveToPattern(patternNrSpinner.getValue());
     }
 
     @FXML
@@ -289,6 +291,7 @@ public class MainController {
     @FXML
     Spinner<Integer> patternTune;
 
+    PatternContextMenuController patternContextMenuController = null;
     void initUI() {
         logger.debug("VERSION:" + SYMPHONIE_VERSION);
         logger.debug("initUI()");
@@ -305,6 +308,7 @@ public class MainController {
 //                notifyPatternCrsrMoved();
 //            }
         };
+        patternContextMenuController = new PatternContextMenuController(patternController, patternScrollPane);
 
         recordToogle.selectedProperty().addListener((ov, old_val, value) -> {
             if (value.booleanValue()) {
@@ -1260,7 +1264,6 @@ public class MainController {
         instrumentController.setActualInstrument(song.getInstrument(0));
         instrumentController.updateInstrumentUI(instrumentController.getActualInstrument());
         instrumentController.visualizeWaveform();
-        patternController.setRebuildColumns();
         patternController.moveToPattern(0, true);
     }
 
@@ -1527,7 +1530,6 @@ public class MainController {
         updateSong();
         progressIndicator.setProgress(0.0);
         logger.debug("Bpm of Song set to " + newsong.getBpm());
-        patternController.setRebuildColumns();
         setMainLabel(modfile.getName());
         rebuildSequenceAndPositionLists();
         sequenceList.getSelectionModel().select(0);
@@ -1583,14 +1585,14 @@ public class MainController {
         return file;
     }
 
-    File loadSample(final String pathPropertyName, final List<FileChooser.ExtensionFilter> extensionFilters) {
+    Optional<File> loadSample(final String pathPropertyName, final List<FileChooser.ExtensionFilter> extensionFilters) {
         final String filePath = mainProperties.getProperty(pathPropertyName);
         final String filename = mainProperties.getProperty(pathPropertyName + "-Filename");
         final File file = getFile(filePath, filename, getSampleFilters());
-        if (file == null) return null;
+        if (file == null) return Optional.empty();
         mainProperties.setProperty(pathPropertyName, file.getParent());
         mainProperties.setProperty(pathPropertyName + "-Filename", file.getName());
-        return file;
+        return Optional.of(file);
     }
 
     private File getFile(final String filePath, final String filename, final List<FileChooser.ExtensionFilter> filters) {

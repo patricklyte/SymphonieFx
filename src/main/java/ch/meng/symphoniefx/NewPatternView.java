@@ -2,14 +2,15 @@ package ch.meng.symphoniefx;
 
 import ch.meng.symphoniefx.song.*;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,7 +23,7 @@ import java.util.stream.IntStream;
 
 
 public class NewPatternView {
-    private final static Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     public static final Background rowBackground = new Background(new BackgroundFill(Color.color(0.8, 0.9, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
     public static final Background voiceBackground = new Background(new BackgroundFill(Color.color(1.0, 1.0, 0.92, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
@@ -50,23 +51,21 @@ public class NewPatternView {
     int crsrX = 0;
     double crsrY = 0;
 
-    final Rectangle blockMarker = new Rectangle();
-    final Rectangle mouseMarker = new Rectangle();
-    final Rectangle mouseRowMarker = new Rectangle();
-    final Rectangle mouseColumnMarker = new Rectangle();
-    final Rectangle playingRowMarker = new Rectangle();
-    final Rectangle crsrMarker = new Rectangle();
-    final Rectangle crsrMarker2 = new Rectangle();
-    //final StackPane stackPane = new StackPane();
-    Pane rootPane = new Pane();
-
-    final Pane markerPane = new Pane();
-    ScrollPane patternScrollPane;
-    ScrollPane patternHeaders = new ScrollPane();
-    ScrollPane rowHeaders = new ScrollPane();
-    Song song;
-    AnchorPane anchorPane;
-    PatternController patternController;
+    private final Rectangle blockMarker = new Rectangle();
+    private final Rectangle mouseMarker = new Rectangle();
+    private final Rectangle mouseRowMarker = new Rectangle();
+    private final Rectangle mouseColumnMarker = new Rectangle();
+    private final Rectangle playingRowMarker = new Rectangle();
+    private final Rectangle crsrMarker = new Rectangle();
+    private final Rectangle crsrMarker2 = new Rectangle();
+    private final Pane rootPane = new Pane();
+    private final Pane markerPane = new Pane();
+    private final ScrollPane patternScrollPane;
+    private final ScrollPane patternHeaders = new ScrollPane();
+    private final ScrollPane rowHeaders = new ScrollPane();
+    private Song song;
+    private final AnchorPane anchorPane;
+    private final PatternController patternController;
 
     NewPatternView(AnchorPane anchorPane, ScrollPane patternScrollPane, PatternController patternController) {
         this.patternScrollPane = patternScrollPane;
@@ -76,10 +75,10 @@ public class NewPatternView {
         buildPitchColors();
     }
 
-    final List<Color> pitchColors = new Vector<>();
+    final List<Color> pitchColors = new ArrayList<>();
     void buildPitchColors() {
-        int range = 360;
-        int start = 0;
+        final int range = 360;
+        final int start = 0;
         for (double hue = start; hue < start+range; hue += (range/24)) {
             pitchColors.add(Color.hsb(hue, 0.5, 1.0, 0.5));
         }
@@ -110,13 +109,13 @@ public class NewPatternView {
 
     private void addKeyVisualPitch(double beatLength, double y, double x, Color color) {
         for(int i = 0; i < (int) beatLength; i++){
-            Rectangle rectangle = new Rectangle(x, y, beatW, beatH * 0.9);
+            final Rectangle rectangle = new Rectangle(x, y, beatW, beatH * 0.9);
             rectangle.setFill(color);
             beatVisualizer.getChildren().add(rectangle);
             y += beatH;
         }
-        double fraction = beatLength - ((int) beatLength);
-        Rectangle rectangle = new Rectangle(x, y, beatW, beatH * 0.9 * fraction);
+        final double fraction = beatLength - ((int) beatLength);
+        final Rectangle rectangle = new Rectangle(x, y, beatW, beatH * 0.9 * fraction);
         rectangle.setFill(color);
         beatVisualizer.getChildren().add(rectangle);
     }
@@ -153,7 +152,7 @@ public class NewPatternView {
         crsrMarker.setY(crsrY * cellH);
         crsrMarker2.setX(crsrMarker.getX()-1);
         crsrMarker2.setY(crsrMarker.getY());
-        patternController.notifyCrsrMoved((int) crsrX, (int) crsrY);
+        patternController.notifyCrsrMoved(crsrX, (int) crsrY);
     }
 
 
@@ -182,27 +181,24 @@ public class NewPatternView {
         mouseColumnMarker.setFill(mouseBorderMarkerColor);
         crsrMarker.setFill(crsrColor);
         crsrMarker2.setFill(crsrColor2);
-        //stackPane.getChildren().add(rootPane);
-
         patternScrollPane.setContent(rootPane);
         patternScrollPane.setPrefViewportHeight(100);
         addMouseHandler();
-        patternScrollPane.vvalueProperty().addListener((ov, old_val, value) -> {
+        patternScrollPane.vvalueProperty().addListener((ov, oldValue, value) -> {
             rowHeaders.setVvalue(patternScrollPane.getVvalue());
             rowHeaders.setPrefHeight(patternScrollPane.getHeight());
         });
-        patternScrollPane.hvalueProperty().addListener((ov, old_val, value) -> {
+        patternScrollPane.hvalueProperty().addListener((ov, oldValue, value) -> {
             patternHeaders.setHvalue(patternScrollPane.getHvalue());
             patternHeaders.setPrefWidth(patternScrollPane.getWidth());
         });
         addKeyboardHandler();
 
-        patternHeaders.setOnMouseMoved(mouseEvent -> {updateCrsr(mouseEvent, true, false);});
-        rowHeaders.setOnMouseMoved(mouseEvent -> {updateCrsr(mouseEvent, false, true);});
+        patternHeaders.setOnMouseMoved(mouseEvent -> updateCrsr(mouseEvent, true, false));
+        rowHeaders.setOnMouseMoved(mouseEvent -> updateCrsr(mouseEvent, false, true));
         patternHeaders.setOnMouseClicked(mouseEvent -> {
-            toogleMute((int) mouseCellX, mouseEvent.isShiftDown());
+            toogleMute(mouseCellX, mouseEvent.isShiftDown());
             buildContent();
-            //rebuildVoiceVisual((int) crsrX);
         });
 
         patternHeaders.setMinHeight(headerH);
@@ -226,16 +222,12 @@ public class NewPatternView {
     }
 
     private void addMouseHandler() {
-        rootPane.setOnMouseMoved(mouseEvent -> {
-            updateCrsr(mouseEvent, true, true);
-        });
+        rootPane.setOnMouseMoved(mouseEvent -> updateCrsr(mouseEvent, true, true));
         rootPane.setOnMouseClicked(mouseEvent -> {
             moveCrsrToMousePosition();
             rootPane.requestFocus();
         });
-        rootPane.setOnMouseDragEntered(mouseEvent -> {
-            logger.debug("setOnMouseDragEntered");
-        });
+        rootPane.setOnMouseDragEntered(mouseEvent -> logger.debug("setOnMouseDragEntered"));
         rootPane.setOnMouseDragged(mouseEvent -> {
             if(!markingBlock) patternController.markBegin(mouseCellX, (int) mouseCellY);
             markingBlock = true;
@@ -250,7 +242,6 @@ public class NewPatternView {
     }
 
     boolean markingBlock = false;
-
     private void addKeyboardHandler() {
         patternScrollPane.setOnKeyPressed(event -> {
             if(event.getCode().isArrowKey()) {
@@ -279,7 +270,7 @@ public class NewPatternView {
         });
     }
 
-    void drawBlockMarks(PatternBlock patternBlock, boolean marking) {
+    void drawBlockMarks(final PatternBlock patternBlock, final boolean marking) {
         if(marking) {
             blockMarker.setFill(blockMarkingColor);
             blockMarker.setStroke(blockMarkingColor2);
@@ -288,21 +279,13 @@ public class NewPatternView {
             blockMarker.setFill(blockMarkerColor);
             blockMarker.setStroke(blockMarkerColor2);
         }
-
         blockMarker.setX(Math.min(patternBlock.getxStart()*cellW, patternBlock.getxEnd()*cellW));
         blockMarker.setY(Math.min(patternBlock.getyStart()*cellH, patternBlock.getyEnd()*cellH));
         blockMarker.setWidth(patternBlock.getBlockWidth()*cellW);
         blockMarker.setHeight(patternBlock.getBlockHeight()*cellH);
-
     }
-//    void drawBlockMarkingWithMouse(PatternBlock patternBlock) {
-//        blockMarker.setX(patternBlock.getxStart()*cellW);
-//        blockMarker.setY(patternBlock.getyStart()*cellH);
-//        blockMarker.setWidth(patternBlock.getBlockWidth()*cellW);
-//        blockMarker.setHeight(patternBlock.getBlockHeight()*cellH);
-//    }
 
-    void toogleMute(int voiceIndex, boolean shift) {
+    void toogleMute(final int voiceIndex, final boolean shift) {
         muteVoice(voiceIndex, !isVoiceMuted(voiceIndex), shift);
     }
 
@@ -311,7 +294,7 @@ public class NewPatternView {
     }
 
     final Set<Integer> mutedVoices = new HashSet<>();
-    void muteVoice(int voiceIndex, boolean muteVoice, boolean shift) {
+    void muteVoice(final int voiceIndex, final boolean muteVoice, final boolean shift) {
         if(shift) {
             muteAllVoices(!isVoiceMuted(voiceIndex));
         } else {
@@ -349,7 +332,7 @@ public class NewPatternView {
         return tableFont;
     }
 
-    TimeMeasure2 timer = new TimeMeasure2();
+    final TimeMeasure2 timer = new TimeMeasure2();
 
     public void buildContent() {
         beatVisualizer = null;
@@ -503,12 +486,10 @@ public class NewPatternView {
         renderCellGfx(pane, voiceIndex, timePosition, event);
     }
 
-    final static Color dspBackground = Color.color(0.99, 0.8, 1.0, 1.0);
-    final static Color volumeBackground = Color.color(0.7, 0.8, 1.0, 1.0);
-    final static Color sampleBackground = Color.color(0.8, 0.99, 1.0, 1.0);
-    final static Color keryonBackground = Color.color(0.70, 0.70, 0.70, 0.5);
-    final static Background blockMarkBackground = new Background(new BackgroundFill(Color.color(0.90, 0.70, 0.5, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
-    final static Background mutedBackground = new Background(new BackgroundFill(Color.color(0.6, 0.6, 0.6, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
+    private static final Color dspBackground = Color.color(0.99, 0.8, 1.0, 1.0);
+    private static final Color volumeBackground = Color.color(0.7, 0.8, 1.0, 1.0);
+    private static final Color sampleBackground = Color.color(0.8, 0.99, 1.0, 1.0);
+    private static final Color keryonBackground = Color.color(0.70, 0.70, 0.70, 0.5);
 
     private void renderCellGfx(final Pane pane, final int voiceIndex, final float timePosition, final SongEvent event) {
         if (event.getFxClass() == SongEventClass.DSP) {
@@ -540,7 +521,6 @@ public class NewPatternView {
         final Text text = new Text(event.getShortDescription());
         text.setFont(getTableFont());
         text.setTranslateY(cellH-2 + timePosition * cellH);
-        //text.setDisable(true);
         pane.getChildren().add(text);
     }
 

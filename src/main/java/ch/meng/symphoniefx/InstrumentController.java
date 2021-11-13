@@ -5,6 +5,7 @@ import ch.meng.symphoniefx.song.SymphonieInstrument;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
@@ -83,7 +85,7 @@ public class InstrumentController {
 
     InstrumentController(MainController mainController, ListView<Label> instrumentList, Song song) {
         this.instrumentList = instrumentList;
-        this.song = song;
+        setSong(song);
         this.mainController = mainController;
         initInstrumentUI();
         addInstrumentEventListeners();
@@ -91,6 +93,7 @@ public class InstrumentController {
 
     public void setSong(Song song) {
         this.song = song;
+        actualInstrument = song.getInstrument(0);
     }
 
     void clearSample() {
@@ -130,6 +133,7 @@ public class InstrumentController {
             groupeRect.setFill(getGroupColor(group));
             rebuildActualInstrumentInList();
         });
+
         addSampleUI();
         initCanvasEvents();
     }
@@ -357,6 +361,7 @@ public class InstrumentController {
 
     private void updateUIToInstrumentType() {
         removeInstrumentSpecificUI();
+        if(actualInstrument==null) return;
         if (actualInstrument.getInstrumentSource().equals(InstrumentSource.Sample)) {
             addSampleUI();
             addWaveformEvents();
@@ -811,6 +816,13 @@ public class InstrumentController {
             waveformPane.getChildren().add(stackPane);
             addWaveformEvents();
         }
+        waveformPane.setOnScroll(scrollEvent -> {
+            if(scrollEvent.getDeltaY()>0) {
+                instrumentSpinner.getValueFactory().setValue(instrumentSpinner.getValue()+1);
+            } else {
+                instrumentSpinner.getValueFactory().setValue(instrumentSpinner.getValue()-1);
+            }
+        });
     }
 
     private void addWaveformEvents() {
@@ -904,9 +916,15 @@ public class InstrumentController {
 
     @FXML
     void loadSample() {
-        final File sampleFile = mainController.loadSample("SamplePath", null);
-        if(sampleFile == null) return;
-        loadSample(sampleFile);
+        mainController.loadSample("SamplePath", null).ifPresent(this::loadSample);
+
+//        mainController.loadSample("SamplePath", null)
+//                .ifPresent((sampleFile) -> loadSample(sampleFile));
+
+//
+//        final File sampleFile = mainController.loadSample("SamplePath", null);
+//        if(sampleFile == null) return;
+//        loadSample(sampleFile);
     }
 
     void loadSample(final File sampleFile) {
