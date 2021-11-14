@@ -1,8 +1,8 @@
 package ch.meng.symphoniefx;
 
+import com.sun.javafx.scene.control.skin.SliderSkin;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Slider;
-import javafx.scene.control.skin.SliderSkin;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
