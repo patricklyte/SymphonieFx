@@ -22,6 +22,10 @@ public class AudioHAL {
             javaDevices.add(mixerinfo);
             javaDrivers.add(mixerinfo.getName() + ":" + mixerinfo.getDescription());
         }
+        for (Mixer.Info mixerinfo : AudioSystem.getMixerInfo()) {
+            javaDevices.add(mixerinfo);
+            javaDrivers.add(mixerinfo.getName() + ":" + mixerinfo.getDescription());
+        }
         List<String> temp = new Vector<>();
         temp.addAll(javaDrivers);
         return temp;
