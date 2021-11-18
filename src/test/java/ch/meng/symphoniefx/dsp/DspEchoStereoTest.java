@@ -1,12 +1,5 @@
 package ch.meng.symphoniefx.dsp;
 
-import ch.meng.symphoniefx.TimeMeasure;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Vector;
-
-
 class DspEchoStereoTest {
 
 //    @Test

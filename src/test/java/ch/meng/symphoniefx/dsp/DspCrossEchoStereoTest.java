@@ -1,6 +1,5 @@
 package ch.meng.symphoniefx.dsp;
 
-import ch.meng.symphoniefx.TimeMeasure;
 import ch.meng.symphoniefx.TimeMeasure2;
 import org.junit.jupiter.api.Test;
 

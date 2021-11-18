@@ -15,15 +15,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.invoke.MethodHandles;
 import java.util.*;
 import java.util.stream.IntStream;
 
 
 public class NewPatternView {
-    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
 
     public static final Background rowBackground = new Background(new BackgroundFill(Color.color(0.8, 0.9, 1.0, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));
     public static final Background voiceBackground = new Background(new BackgroundFill(Color.color(1.0, 1.0, 0.92, 1.0), null, new Insets(0.0, 0.0, 2.0, 2.0)));

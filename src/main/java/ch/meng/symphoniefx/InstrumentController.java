@@ -5,7 +5,6 @@ import ch.meng.symphoniefx.song.SymphonieInstrument;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -16,13 +15,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import symreader.LoopTypeEnum;
 import symreader.SampleChannel;
 
@@ -30,7 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class InstrumentController {
     public static final String UI_VST_PROGRAM = "Program";
     public static final String UI_VST_EDITOR = "Editor";
     public static final String UI_RESET_VST = "Reset VST";
-    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
     public static final String UI_SAVE_PROGRAM = "saveProgram";
     public static final String UI_LOAD_PROGRAM = "loadProgram";
 

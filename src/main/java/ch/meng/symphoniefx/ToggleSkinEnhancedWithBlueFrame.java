@@ -1,7 +1,7 @@
 package ch.meng.symphoniefx;
 
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

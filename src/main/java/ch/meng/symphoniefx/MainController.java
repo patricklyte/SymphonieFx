@@ -31,7 +31,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import symreader.OldSymModFormatImporter;
 import symreader.SampleImporterJavaInternal;
 import symreader.SongIO;
@@ -39,7 +40,6 @@ import symreader.VirtualSampleBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -50,9 +50,9 @@ import static ch.meng.symphoniefx.SharedStatic.*;
 
 
 public class MainController {
-    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
 
-    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.11";
+    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.12";
     public static final String LASTSONG_KEY = "LASTSONG";
     public static final String SAVE_SONG_AS_PATH = "saveSongAsPath";
     public static final String EVENT_DESIGNER_VISIBLE_KEY = "EventDesignerVisible";

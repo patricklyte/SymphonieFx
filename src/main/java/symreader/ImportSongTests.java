@@ -3,8 +3,9 @@ package symreader;
 import ch.meng.symphoniefx.TimeMeasure;
 import ch.meng.symphoniefx.dsp.DspEchoStereo;
 import ch.meng.symphoniefx.dsp.StereoSample;
-import org.junit.Test;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Vector;

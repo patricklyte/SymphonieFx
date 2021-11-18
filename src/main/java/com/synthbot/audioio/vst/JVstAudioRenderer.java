@@ -1,25 +1,22 @@
 package com.synthbot.audioio.vst;
 
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
-import org.apache.log4j.Logger;
-
-import javax.sound.midi.InvalidMidiDataException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.sound.midi.ShortMessage;
-import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JVstAudioRenderer {
-    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
 
-    private JVstHost2 vst;
+    private final JVstHost2 vst;
     private final float[][] fInputs;
     private final float[][] vstSamples;
     private final byte[] bOutput;
     private int bufferLengthPerChannelInSamples;
     private int numOutputs;
     private int numAudioOutputs;
-    private static final float ShortMaxValueAsFloat = Short.MAX_VALUE; //* 0.5f;
 
     public JVstAudioRenderer(JVstHost2 vst) {
         max = 0;

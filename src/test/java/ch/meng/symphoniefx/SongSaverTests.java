@@ -1,15 +1,10 @@
 package ch.meng.symphoniefx;
 
 import ch.meng.symphoniefx.song.Song;
-import ch.meng.symphoniefx.song.SongEvent;
 import ch.meng.symphoniefx.song.SymphonieInstrument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import symreader.*;
-
-import javax.xml.bind.JAXB;
-import java.io.StringReader;
-import java.io.StringWriter;
+import symreader.OldSampleImporter;
 
 class SongSaverTests {
     SongSaver songSaver = new SongSaver();

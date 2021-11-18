@@ -10,13 +10,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.invoke.MethodHandles;
 import java.util.Set;
 
 public class PatternController {
-    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
     private Song song;
     private final Spinner<Integer> patternNrSpinner;
     private final Spinner<Integer> patternStep;

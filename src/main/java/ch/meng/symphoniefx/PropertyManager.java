@@ -18,8 +18,8 @@ public class PropertyManager {
     protected org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(MethodHandles.lookup().lookupClass());
     java.util.Properties properties = new Properties();
     private final String fileName;
-    private static final String userDirectory = System.getProperty("user.dir");
-    private static final String fileSeperator = System.getProperty("file.separator");
+    private static final String USER_DIRECTORY = System.getProperty("user.dir");
+    private static final String FILE_SEPERATOR = System.getProperty("file.separator");
     private final String prefix;
 
     public PropertyManager(String fileName, String prefix) {
@@ -28,7 +28,7 @@ public class PropertyManager {
     }
 
     private String getFullFilename() {
-        return userDirectory + fileSeperator + fileName + ".properties";
+        return USER_DIRECTORY + FILE_SEPERATOR + fileName + ".properties";
     }
 
     public String getProperty(final String key) {
@@ -38,14 +38,13 @@ public class PropertyManager {
     }
 
     public boolean getBooleanProperty(final String key) {
-        String text = getProperty(key);
         return getProperty(key).equals(TRUE_VALUE);
     }
 
     public double getDoubleProperty(final String key) {
         String text = getProperty(key);
         if (text.isEmpty()) return 0;
-        return Double.valueOf(text);
+        return Double.parseDouble(text);
     }
 
     public long getLongProperty(final String key, long defaultValue) {
@@ -122,30 +121,24 @@ public class PropertyManager {
         try {
             final String value = getProperty(key);
             if (key == null || value == null) return false;
-            if (uiObject instanceof ChoiceBox) {
+            if (uiObject instanceof ChoiceBox choiceBox) {
                 if (value.isEmpty()) return false;
-                final ChoiceBox choiceBox = (ChoiceBox) uiObject;
                 choiceBox.setValue(value);
                 return true;
-            } else if (uiObject instanceof CheckBox) {
-                final CheckBox choiceBox = (CheckBox) uiObject;
+            } else if (uiObject instanceof CheckBox choiceBox) {
                 choiceBox.setSelected((Boolean.parseBoolean(value)));
                 return true;
-            } else if (uiObject instanceof TabPane) {
-                final TabPane tabPane = (TabPane) uiObject;
+            } else if (uiObject instanceof TabPane tabPane) {
                 tabPane.getSelectionModel().select((Integer.parseInt(value)));
                 return true;
-            } else if (uiObject instanceof Slider) {
-                final Slider slider = (Slider) uiObject;
+            } else if (uiObject instanceof Slider slider) {
                 slider.setValue(Double.parseDouble(value));
                 return true;
-            } else if (uiObject instanceof CheckMenuItem) {
-                final CheckMenuItem item = (CheckMenuItem) uiObject;
+            } else if (uiObject instanceof CheckMenuItem item) {
                 if(!value.isEmpty()) item.setSelected(Boolean.parseBoolean(value));
                 return true;
             } else if (uiObject instanceof Stage) loadStagePosition((Stage) uiObject);
-            else if (uiObject instanceof TextField) {
-                final TextField textField = (TextField) uiObject;
+            else if (uiObject instanceof TextField textField) {
                 textField.setText(value);
                 return true;
             }
@@ -159,7 +152,6 @@ public class PropertyManager {
         if(stage==null) return;
         if (!load()) return;
         final double x = getDoubleProperty("X");
-        if (0 == x) return;
         final double y = getDoubleProperty("Y");
         final double width = getDoubleProperty("Width");
         final double height = getDoubleProperty("Height");
@@ -176,43 +168,34 @@ public class PropertyManager {
 
     public void saveUIState(final Object uiObject, final String key) {
         if(uiObject==null) return;
-        if (uiObject instanceof ChoiceBox) {
-            final ChoiceBox choiceBox = (ChoiceBox) uiObject;
+        if (uiObject instanceof ChoiceBox choiceBox) {
             if (choiceBox.getValue() instanceof String) {
                 setProperty(key, (String) choiceBox.getValue());
             }
             return;
-        } else if (uiObject instanceof CheckBox) {
-            final CheckBox choiceBox = (CheckBox) uiObject;
+        } else if (uiObject instanceof CheckBox choiceBox) {
             if (choiceBox.isSelected()) {
                 setProperty(key, TRUE_VALUE);
             } else {
                 setProperty(key, FALSE_VALUE);
             }
-        } else if (uiObject instanceof CheckMenuItem) {
-            final CheckMenuItem item = (CheckMenuItem) uiObject;
+        } else if (uiObject instanceof CheckMenuItem item) {
             if (item.isSelected()) {
                 setProperty(key, TRUE_VALUE);
             } else {
                 setProperty(key, FALSE_VALUE);
             }
-        } else if (uiObject instanceof Stage) {
-            final Stage object = (Stage) uiObject;
-            setProperty("Width", object.getWidth());
-            setProperty("Height", object.getHeight());
-            setProperty("X", object.getX());
-            setProperty("Y", object.getY());
-        } else if (uiObject instanceof TextField) {
-            final TextField textField = (TextField) uiObject;
+        } else if (uiObject instanceof Stage stage) {
+            setProperty("Width", stage.getWidth());
+            setProperty("Height", stage.getHeight());
+            setProperty("X", stage.getX());
+            setProperty("Y", stage.getY());
+        } else if (uiObject instanceof TextField textField) {
             setProperty(key, textField.getText());
-        }  else if (uiObject instanceof Slider) {
-            final Slider slider = (Slider) uiObject;
+        }  else if (uiObject instanceof Slider slider) {
             setProperty(key, slider.getValue());
-        } else if (uiObject instanceof TabPane) {
-            final TabPane pane = (TabPane) uiObject;
+        } else if (uiObject instanceof TabPane pane) {
             setProperty(key, pane.getSelectionModel().getSelectedIndex());
-        } else {
-
         }
     }
 

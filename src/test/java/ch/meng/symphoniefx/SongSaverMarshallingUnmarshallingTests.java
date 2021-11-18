@@ -1,11 +1,8 @@
 package ch.meng.symphoniefx;
 
-import ch.meng.symphoniefx.song.Song;
 import ch.meng.symphoniefx.song.SongEvent;
-import ch.meng.symphoniefx.song.SymphonieInstrument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import symreader.OldSampleImporter;
 
 import javax.xml.bind.JAXB;
 import java.io.StringReader;

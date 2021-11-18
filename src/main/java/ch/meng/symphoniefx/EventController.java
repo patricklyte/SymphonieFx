@@ -239,7 +239,7 @@ public class EventController {
         eventGridPane.add(new Label(text), x++, y);
 
         TextField textField = new TextField();
-        textField.setUserData(new Integer(y));
+        textField.setUserData(Integer.valueOf(y));
         groupTextFields.add(textField);
         eventGridPane.add(textField, x++, y);
 
@@ -247,7 +247,7 @@ public class EventController {
         groupSliders.add(slider);
         eventGridPane.add(slider, x++, y, 2, 1);
         x++;
-        slider.setUserData(new Integer(y - 1));
+        slider.setUserData(Integer.valueOf(y - 1));
         slider.setMin(0);
         slider.setMax(255);
         slider.setShowTickLabels(true);
