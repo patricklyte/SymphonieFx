@@ -1,19 +1,17 @@
 package ch.meng.symphoniefx.mixer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.*;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
 
 public class JavaAudioDevice {
-    protected Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LogManager.getLogger();
 
     private int numberOfHardwareChannels = 2;
     int bytePerSample = 2;
     private SourceDataLine soundLine;
-    private boolean deviceReady = true;
-    private Mixer.Info[] audioDevices;
+    private boolean deviceReady = false;
 
     public void close() {
         logger.debug("Closing Audio Device");
@@ -45,12 +43,12 @@ public class JavaAudioDevice {
     }
 
     public void init(Mixer.Info info, int numberOfHardwareChannels, int samplesPerChannel, int mixFrequency, double oversample) {
+        deviceReady = false;
         this.numberOfHardwareChannels = numberOfHardwareChannels;
         if (info == null) {
-            audioDevices = AudioSystem.getMixerInfo();
+            Mixer.Info[] audioDevices = AudioSystem.getMixerInfo();
             info = audioDevices[0];
         }
-        deviceReady = false;
         logger.debug("setAudioDevice " + info + ", Buffersize"  + samplesPerChannel * numberOfHardwareChannels + " " + mixFrequency);
         Mixer mixer = AudioSystem.getMixer(info);
         int NumbOfBits = 16;
@@ -64,7 +62,7 @@ public class JavaAudioDevice {
 
         try {
             soundLine = (SourceDataLine) mixer.getLine(soundlineInfo);
-        } catch (LineUnavailableException e) {
+        } catch (LineUnavailableException | IllegalArgumentException e) {
             logger.debug("ERROR: Failed to set AudioDevice " + info + ":" + samplesPerChannel);
             e.printStackTrace();
             return;
