@@ -1,7 +1,5 @@
 package ch.meng.symphoniefx.dsp;
 
-import java.util.ArrayList;
-
 public class SymphonieDspIIfloat {
     private boolean active;
     private final int channels = 2;

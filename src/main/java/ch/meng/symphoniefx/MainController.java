@@ -52,7 +52,7 @@ import static ch.meng.symphoniefx.SharedStatic.*;
 public class MainController {
     private static final Logger logger = LogManager.getLogger();
 
-    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.12";
+    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.14";
     public static final String LASTSONG_KEY = "LASTSONG";
     public static final String SAVE_SONG_AS_PATH = "saveSongAsPath";
     public static final String EVENT_DESIGNER_VISIBLE_KEY = "EventDesignerVisible";
@@ -301,6 +301,19 @@ public class MainController {
         initDspUI();
         initPositionsUI();
         initGlobalKeyboardShortcuts();
+        initPatternView();
+        initSoundUI();
+        initInstrumentUI();
+        newSong();
+
+        if (mainProperties.getBooleanProperty(EVENT_DESIGNER_VISIBLE_KEY)) showEventDesigner();
+        initAudioDeviceUI();
+
+
+        testController = new TestController(testGridPane, getVoiceExpander());
+    }
+
+    private void initPatternView() {
         patternController = new PatternController(song, patternPane,
                 patternNrSpinner, patternStep, eventLength, patternTune, this, patternScrollPane) {
 //            @Override
@@ -317,15 +330,6 @@ public class MainController {
                 recordToogle.setBackground(null);
             }
         });
-        initSoundUI();
-        initInstrumentUI();
-        newSong();
-
-        if (mainProperties.getBooleanProperty(EVENT_DESIGNER_VISIBLE_KEY)) showEventDesigner();
-        initAudioDeviceUI();
-
-
-        testController = new TestController(testGridPane, getVoiceExpander());
     }
 
     InstrumentController instrumentController;

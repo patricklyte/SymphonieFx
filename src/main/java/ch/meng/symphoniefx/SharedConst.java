@@ -3,7 +3,8 @@ package ch.meng.symphoniefx;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public final class SharedConst {
     public final static Color errorColor = Color.color(1.0, 0.6, 0.5);

@@ -1,10 +1,10 @@
 package ch.meng.symphoniefx;
 
-import ch.meng.symphoniefx.song.Song;
-import org.apache.log4j.Logger;
 import ch.meng.symphoniefx.song.MultichannelEnum;
-import symreader.SongIO;
+import ch.meng.symphoniefx.song.Song;
 import ch.meng.symphoniefx.song.SymphonieInstrument;
+import org.apache.log4j.Logger;
+import symreader.SongIO;
 
 import javax.xml.bind.JAXB;
 import java.io.*;

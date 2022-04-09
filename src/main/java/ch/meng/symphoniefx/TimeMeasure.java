@@ -1,7 +1,10 @@
 package ch.meng.symphoniefx;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * utility class for measuring time v2.0

@@ -1,11 +1,7 @@
 package ch.meng.symphoniefx.mixer;
 
-import ch.meng.symphoniefx.TimeMeasure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Vector;
 
 
 class VoiceExpanderPitchTests {

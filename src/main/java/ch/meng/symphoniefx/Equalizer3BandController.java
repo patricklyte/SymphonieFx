@@ -1,16 +1,17 @@
 package ch.meng.symphoniefx;
 
+import ch.meng.symphoniefx.dsp.DspStereo3BandEQ;
+import ch.meng.symphoniefx.dsp.StereoSample;
 import ch.meng.symphoniefx.song.Song;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import ch.meng.symphoniefx.dsp.DspStereo3BandEQ;
-import ch.meng.symphoniefx.dsp.StereoSample;
 
 import java.net.URL;
 import java.util.ResourceBundle;

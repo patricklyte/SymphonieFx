@@ -1,12 +1,12 @@
 package ch.meng.symphoniefx;
 
+import ch.meng.symphoniefx.song.Position;
 import ch.meng.symphoniefx.song.Song;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import org.apache.log4j.Logger;
-import ch.meng.symphoniefx.song.Position;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;

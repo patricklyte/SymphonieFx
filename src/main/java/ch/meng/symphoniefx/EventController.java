@@ -1,6 +1,9 @@
 package ch.meng.symphoniefx;
 
-import ch.meng.symphoniefx.song.*;
+import ch.meng.symphoniefx.song.EventType;
+import ch.meng.symphoniefx.song.Song;
+import ch.meng.symphoniefx.song.SongEvent;
+import ch.meng.symphoniefx.song.SongEventClass;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;

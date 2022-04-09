@@ -1,7 +1,5 @@
 package ch.meng.symphoniefx;
 
-import io.nayuki.flac.decode.DataFormatException;
-
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;

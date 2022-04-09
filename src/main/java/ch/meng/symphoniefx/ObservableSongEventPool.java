@@ -1,9 +1,9 @@
 package ch.meng.symphoniefx;
 
+import ch.meng.symphoniefx.song.SongEventPool;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import ch.meng.symphoniefx.song.SongEventPool;
 
 public class ObservableSongEventPool implements ObservableValue<SongEventPool> {
     SongEventPool eventpool;

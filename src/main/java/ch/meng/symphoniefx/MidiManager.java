@@ -1,11 +1,6 @@
 package ch.meng.symphoniefx;
 
 import javax.sound.midi.*;
-import java.util.List;
-import javax.sound.midi.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
 
 
 public class MidiManager {

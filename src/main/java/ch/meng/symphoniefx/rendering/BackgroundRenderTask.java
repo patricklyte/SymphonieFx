@@ -6,7 +6,6 @@ import ch.meng.symphoniefx.song.Song;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;

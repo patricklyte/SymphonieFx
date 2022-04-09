@@ -6,8 +6,6 @@ import ch.meng.symphoniefx.dsp.DspMonoFx;
 import ch.meng.symphoniefx.song.SymphonieInstrument;
 import symreader.FilterType;
 
-import java.util.*;
-
 public class Voice {
     boolean inUse = false; // not end of sample reached
     private boolean muted = false;

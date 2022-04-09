@@ -1,7 +1,5 @@
 package ch.meng.symphoniefx.song;
 
-import ch.meng.symphoniefx.song.ValueType;
-
 public interface EventValue {
 
 

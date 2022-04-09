@@ -1,11 +1,12 @@
 package ch.meng.symphoniefx.rendering;
 
-import ch.meng.symphoniefx.*;
+import ch.meng.symphoniefx.ProgressMessage;
+import ch.meng.symphoniefx.PropertyManager;
+import ch.meng.symphoniefx.SharedStatic;
 import ch.meng.symphoniefx.mixer.VoiceExpander;
 import ch.meng.symphoniefx.song.Song;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
-
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -18,7 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

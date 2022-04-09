@@ -16,7 +16,9 @@ import ch.meng.symphoniefx.mixer.SampleInterpolator;
 import symreader.*;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import static symreader.PitchToFrequencyProvider.FREQUENCY_ILLEGAL;
 

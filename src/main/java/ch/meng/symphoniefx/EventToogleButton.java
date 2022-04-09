@@ -1,9 +1,9 @@
 package ch.meng.symphoniefx;
 
-import javafx.event.ActionEvent;
-import javafx.scene.control.ToggleButton;
 import ch.meng.symphoniefx.song.EventType;
 import ch.meng.symphoniefx.song.SongEvent;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ToggleButton;
 
 public class EventToogleButton  extends ToggleButton {
 

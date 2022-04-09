@@ -1,18 +1,11 @@
 package ch.meng.symphoniefx;
 
-import ch.meng.symphoniefx.song.Position;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.lang.invoke.MethodHandles;
 
 public class MouseSelectionHandler {

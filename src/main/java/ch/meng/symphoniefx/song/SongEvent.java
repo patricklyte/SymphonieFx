@@ -1,7 +1,9 @@
 package ch.meng.symphoniefx.song;
 
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class SongEvent {
     private double version = 1.0;

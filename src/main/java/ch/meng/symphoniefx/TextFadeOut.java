@@ -5,7 +5,6 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.VPos;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
-import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;

@@ -2,8 +2,8 @@ package ch.meng.symphoniefx;
 
 import ch.meng.symphoniefx.song.MultichannelEnum;
 import ch.meng.symphoniefx.song.Song;
-import symreader.OldSampleImporter;
 import ch.meng.symphoniefx.song.SymphonieInstrument;
+import symreader.OldSampleImporter;
 import symreader.VirtualSampleBuilder;
 
 import java.io.ByteArrayInputStream;

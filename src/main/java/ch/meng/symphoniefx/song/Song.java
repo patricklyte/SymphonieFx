@@ -10,7 +10,6 @@ import ch.meng.symphoniefx.PlaySongMode;
 import ch.meng.symphoniefx.mixer.VoiceExpander;
 import org.apache.log4j.Logger;
 
-
 import java.lang.invoke.MethodHandles;
 import java.util.*;
 

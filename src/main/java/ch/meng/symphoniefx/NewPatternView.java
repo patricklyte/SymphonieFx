@@ -243,12 +243,13 @@ public class NewPatternView {
 
     boolean markingBlock = false;
     private void addKeyboardHandler() {
-        patternScrollPane.setOnKeyPressed(event -> {
+        rootPane.setOnKeyPressed(event -> {
             if(event.getCode().isArrowKey()) {
+                logger.debug("Arrow Key" + event.getCode());
                 if(event.getCode().equals(KeyCode.DOWN)) crsrY++;
-                if(event.getCode().equals(KeyCode.UP)) crsrY--;
-                if(event.getCode().equals(KeyCode.RIGHT)) crsrX++;
-                if(event.getCode().equals(KeyCode.LEFT)) crsrX--;
+                else if(event.getCode().equals(KeyCode.UP)) crsrY--;
+                else if(event.getCode().equals(KeyCode.RIGHT)) crsrX++;
+                else if(event.getCode().equals(KeyCode.LEFT)) crsrX--;
                 enforceCrsrInPattern();
                 event.consume();
                 updateCrsrVisuals();
@@ -263,10 +264,6 @@ public class NewPatternView {
                 }
                 if(event.getCode().equals(KeyCode.V)) patternController.blockPaste(crsrX, (int) crsrY, true);
             }
-        });
-
-        patternScrollPane.setOnMouseDragEntered(event -> {
-            logger.debug("setOnMouseDragEntered");
         });
     }
 
