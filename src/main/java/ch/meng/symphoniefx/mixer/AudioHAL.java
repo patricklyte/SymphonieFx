@@ -41,6 +41,19 @@ public class AudioHAL {
         return javaDevices.get(index);
     }
 
+    public JavaAudioDevice getSpecificAudioDevice(String audioDeviceName, int numberOfHardwareChannels, int samplesPerChannel, int mixFrequency, double oversample) {
+        int index = 0;
+        for(Mixer.Info device : javaDevices) {
+            if(device.getName().equals(audioDeviceName)) {
+                index = javaDevices.indexOf(device);
+                break;
+            }
+        }
+        JavaAudioDevice javaAudioDevice = new JavaAudioDevice();
+        javaAudioDevice.init(javaDevices.get(index), numberOfHardwareChannels, samplesPerChannel, mixFrequency, oversample);
+        return javaAudioDevice;
+    }
+
     public JavaAudioDevice getDefaultAudioDevice(int numberOfHardwareChannels, int samplesPerChannel, int mixFrequency, double oversample) {
         JavaAudioDevice javaAudioDevice = new JavaAudioDevice();
         javaAudioDevice.init(javaDevices.get(0), numberOfHardwareChannels, samplesPerChannel, mixFrequency, oversample);

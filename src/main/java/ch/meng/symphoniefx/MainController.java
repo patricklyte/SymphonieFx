@@ -52,7 +52,7 @@ import static ch.meng.symphoniefx.SharedStatic.*;
 public class MainController {
     private static final Logger logger = LogManager.getLogger();
 
-    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.14";
+    public static final String SYMPHONIE_VERSION = "Symphonie Fx v2.15";
     public static final String LASTSONG_KEY = "LASTSONG";
     public static final String SAVE_SONG_AS_PATH = "saveSongAsPath";
     public static final String EVENT_DESIGNER_VISIBLE_KEY = "EventDesignerVisible";
@@ -63,6 +63,7 @@ public class MainController {
     public static final String SAMPLE_HISTORY = "SampleHistory";
     public static final String HISTORY_SPLITTER = "!-!";
     public static final String userDir = System.getProperty("user.home");
+    public static final String AUDIO_MIXER_DESCRIPTION = "AudioMixerDescription";
 
 
     public MainController() {
@@ -355,10 +356,6 @@ public class MainController {
     }
 
     void initAudioDeviceUI() {
-//        audioDevices = AudioSystem.getMixerInfo();
-//        for (Mixer.Info mixerinfo : audioDevices) {
-//            audioDeviceChoiceBox.getItems().add(mixerinfo.getName() + ":" + mixerinfo.getDescription());
-//        }
         audioDeviceChoiceBox.getItems().addAll(audioHAL.getAudioOutputDevices());
         audioDeviceChoiceBox.getSelectionModel().select(0);
 
@@ -370,6 +367,7 @@ public class MainController {
         bufferLenComboBox.getSelectionModel().select(1);
         audioDeviceChoiceBox.valueProperty().addListener((ov, old_val, type) -> {
             initAudioWithNewFrequency();
+            mainProperties.setProperty(AUDIO_MIXER_DESCRIPTION, audioHAL.getMixerInfo(audioDeviceChoiceBox.getSelectionModel().getSelectedIndex()).getName());;
         });
         bufferLenComboBox.valueProperty().addListener((ov, old_val, type) -> {
             initAudioWithNewFrequency();
@@ -1368,6 +1366,9 @@ public class MainController {
             quit();
         });
         stage.setOnShown(event -> {
+            if(!mainProperties.load()) {
+                logger.error("Failed to load mainProperties");
+            }
             addPositionsEventListeners();
             addEventHandlers(stage, scene);
             styleUI();
@@ -1375,6 +1376,8 @@ public class MainController {
             initUI();
             updateTitle();
             loadStagePosition(stage);
+            String name = backgroundMusicTask.getJavaAudioDevice().getActualMixerInfo().getName();
+            audioDeviceChoiceBox.getSelectionModel().select(name);
         });
     }
 
@@ -2020,7 +2023,7 @@ public class MainController {
     private void startJavaDevice() {
         if (backgroundMusicTask == null) {
             audioHAL.getAudioOutputDevices();
-            backgroundMusicTask = new BackgroundMusicTask(this, voiceExpander, audioHAL);
+            backgroundMusicTask = new BackgroundMusicTask(this, voiceExpander, audioHAL, mainProperties.getProperty(AUDIO_MIXER_DESCRIPTION));
             bufferLenInSamples = backgroundMusicTask.getSampleBufferSize();
             backgroundMusicTask.messageProperty().addListener((observable, oldValue, newValue) -> {
                 notifyUpdateUI();
@@ -2123,7 +2126,6 @@ public class MainController {
         bpmSlider.setValue(100);
         tuneSlider.setValue(0);
         print("loadStagePosition");
-        if (!mainProperties.load()) return;
 
         String lastSongPath = mainProperties.getProperty(LASTSONG_KEY);
         if (!lastSongPath.isEmpty()) reloadSongMenuItem.setText("Reload " + lastSongPath);

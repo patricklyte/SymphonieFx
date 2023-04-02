@@ -42,6 +42,11 @@ public class JavaAudioDevice {
         return -max;
     }
 
+    private Mixer.Info actualMixerInfo;
+    public Mixer.Info getActualMixerInfo() {
+        return actualMixerInfo;
+    }
+
     public void init(Mixer.Info info, int numberOfHardwareChannels, int samplesPerChannel, int mixFrequency, double oversample) {
         deviceReady = false;
         this.numberOfHardwareChannels = numberOfHardwareChannels;
@@ -49,6 +54,7 @@ public class JavaAudioDevice {
             Mixer.Info[] audioDevices = AudioSystem.getMixerInfo();
             info = audioDevices[0];
         }
+        actualMixerInfo = info;
         logger.debug("setAudioDevice " + info + ", Buffersize"  + samplesPerChannel * numberOfHardwareChannels + " " + mixFrequency);
         Mixer mixer = AudioSystem.getMixer(info);
         int NumbOfBits = 16;

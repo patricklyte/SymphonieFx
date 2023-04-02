@@ -21,16 +21,20 @@ public class BackgroundMusicTask extends Task<Long> {
     JavaAudioDevice javaAudioDevice;
     AudioHAL audioHAL;
 
+    public JavaAudioDevice getJavaAudioDevice() {
+        return javaAudioDevice;
+    }
+
     public int getSampleBufferSize() {
         return sampleBufferSize;
     }
 
-    public BackgroundMusicTask(final MainController controller, final VoiceExpander voiceExpander, final AudioHAL audioHAL) {
+    public BackgroundMusicTask(final MainController controller, final VoiceExpander voiceExpander, final AudioHAL audioHAL, final String audioDeviceName) {
         this.voiceExpander = voiceExpander;
         this.controller = controller;
         this.audioHAL = audioHAL;
         voiceExpander.setNotificationTask(this);
-        javaAudioDevice = audioHAL.getDefaultAudioDevice(2, sampleBufferSize/2, 44100, 1);
+        javaAudioDevice = audioHAL.getSpecificAudioDevice(audioDeviceName, 2, sampleBufferSize/2, 44100, 1);
     }
 
     public void setAudioDevice(Mixer.Info info, int mixFrequency, int samplesPerChannel) {
