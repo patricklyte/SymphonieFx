@@ -3,11 +3,11 @@ package ch.meng.symphoniefx;
 import ch.meng.symphoniefx.song.MultichannelEnum;
 import ch.meng.symphoniefx.song.Song;
 import ch.meng.symphoniefx.song.SymphonieInstrument;
+import jakarta.xml.bind.JAXB;
 import org.apache.log4j.Logger;
 import symreader.SongIO;
 import symreader.VirtualSampleBuilder;
 
-import javax.xml.bind.JAXB;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.util.List;

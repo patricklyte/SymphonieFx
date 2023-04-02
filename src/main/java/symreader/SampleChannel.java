@@ -1,8 +1,8 @@
 package symreader;
 
 import ch.meng.symphoniefx.song.SymphonieInstrument;
+import jakarta.xml.bind.annotation.XmlTransient;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 public class SampleChannel {

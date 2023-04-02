@@ -298,9 +298,11 @@ public class NewPatternView {
             if(muteVoice) mutedVoices.add(voiceIndex);
             else mutedVoices.remove(voiceIndex);
         }
+        this.song.getLinkedVoiceExpander().ifPresent(voiceExpander -> voiceExpander.muteVoice(voiceIndex, muteVoice));
     }
 
-    void muteAllVoices(boolean muteVoice) {
+    void muteAllVoices(final boolean muteVoice) {
+        this.song.getLinkedVoiceExpander().ifPresent(voiceExpander -> voiceExpander.muteAllVoices(muteVoice));
         if(!muteVoice) {
             mutedVoices.clear();
             return;

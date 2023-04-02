@@ -137,10 +137,6 @@ public class Voice {
         return instrument != null && instrument.isMuted();
     }
 
-//    void toogleMute() {
-//        this.muted = !this.muted;
-//    }
-
     void pausePlaying() {
         isPausing = true;
     }

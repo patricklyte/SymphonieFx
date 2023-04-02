@@ -1,6 +1,7 @@
 package ch.meng.symphoniefx.song;
 
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

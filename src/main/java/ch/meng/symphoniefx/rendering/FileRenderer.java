@@ -63,7 +63,7 @@ public class FileRenderer {
 
         this.maxAmplitudeOfSong = maxAmplitudeOfSong;
         this.renderVolume = renderVolume;
-        oldvoiceExpander = song.getLinkedVoiceExpander();
+        oldvoiceExpander = song.getLinkedVoiceExpander().get();
         this.cloneAudioSetup = cloneAudioSetup;
         this.onlySampleName = onlySampleName;
         this.renderFileFormat = renderFileFormat;
@@ -156,7 +156,7 @@ public class FileRenderer {
         print("Rendering " + song.getName());
         for (int voiceIndex = 0; voiceIndex < song.getNumbOfVoices(); voiceIndex += 2) {
             VoiceExpander voiceExpander = getVoiceExpander(song, outputFrequency);
-            voiceExpander.setMuteAllVoices(true);
+            voiceExpander.muteAllVoices(true);
             voiceExpander.muteVoice(voiceIndex, false);
             voiceExpander.muteVoice(voiceIndex + 1, false);
             String suffix = Integer.toString(voiceIndex);
@@ -360,7 +360,7 @@ public class FileRenderer {
         logger.debug("writeFlac " + out.getPath());
         try (RandomAccessFile outputFile = new RandomAccessFile(out, "rw")) {
             outputFile.setLength(0);  // Truncate an existing file
-            BitOutputStream bitOutputStream = new BitOutputStream(
+            final BitOutputStream bitOutputStream = new BitOutputStream(
                     new BufferedOutputStream(new RandomAccessFileOutputStream(outputFile)));
             bitOutputStream.writeInt(32, 0x664C6143);
 

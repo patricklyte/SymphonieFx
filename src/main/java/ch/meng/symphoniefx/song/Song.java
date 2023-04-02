@@ -161,8 +161,9 @@ public class Song {
         allocDefaultSong();
     }
 
-    public VoiceExpander getLinkedVoiceExpander() {
-        return LinkedVoiceExpander;
+    public Optional<VoiceExpander> getLinkedVoiceExpander() {
+        if(LinkedVoiceExpander == null) return Optional.empty();
+        return Optional.of(LinkedVoiceExpander);
     }
 
     public void setLinkedVoiceExpander(VoiceExpander linkedVoiceExpander) {
@@ -384,7 +385,7 @@ public class Song {
         actualPlayingPositionIndex = positionIndex;
         PlayPositionInit();
         setBpm(bpm);
-        if(getLinkedVoiceExpander()!=null) getLinkedVoiceExpander().setSongSpeed(bpm, getPosition(actualPlayingPositionIndex).getSpeed_Cycl());
+        getLinkedVoiceExpander().ifPresent(voiceExpander -> voiceExpander.setSongSpeed(bpm, getPosition(actualPlayingPositionIndex).getSpeed_Cycl()));
         isPlaying = true;
         setUpdatePlayingPos(true);
     }
@@ -587,9 +588,7 @@ public class Song {
 
     public void setBpm(double bpm) {
         this.bpm = bpm;
-        if(getLinkedVoiceExpander()!=null) {
-            getLinkedVoiceExpander().setBpm(bpm);
-        }
+        getLinkedVoiceExpander().ifPresent(voiceExpander -> voiceExpander.setBpm(bpm));
     }
 
     public Sequence getSequence(int i) {

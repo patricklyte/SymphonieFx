@@ -1061,10 +1061,13 @@ public class MainController {
 
     @FXML
     Button renderToFileButton;
-
+    Stage audioRenderingStage;
     @FXML
     void renderToFile() {
-        if (isRendering) return;
+        if (isRendering) {
+            if(audioRenderingStage != null) audioRenderingStage.toFront();
+            return;
+        }
         getVoiceExpander().setSong(new Song());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AudioRendering2.fxml"));
         AnchorPane parentPane = null;
@@ -1077,7 +1080,7 @@ public class MainController {
             exception.printStackTrace();
             return;
         }
-        Stage audioRenderingStage = new Stage();
+        audioRenderingStage = new Stage();
         audioRenderingStage.setTitle("Audio Rendering v1.0");
         Group group = new Group(parentPane);
         Scene scene = new Scene(group, 1000, 600, true);
@@ -1096,6 +1099,8 @@ public class MainController {
         isRendering = false;
         song.restoreInstrumentMuteState();
         progressIndicator.setProgress(0.0);
+        audioRenderingStage.close();
+        audioRenderingStage = null;
     }
 
 
@@ -1256,7 +1261,7 @@ public class MainController {
         this.song.setContentLoaded(true);
         getVoiceExpander().setSong(song);
         patternController.muteAllVoices(false);
-        getVoiceExpander().setMuteAllVoices(false);
+        getVoiceExpander().muteAllVoices(false);
         updateSong();
         updateTitle();
         updateStatus();

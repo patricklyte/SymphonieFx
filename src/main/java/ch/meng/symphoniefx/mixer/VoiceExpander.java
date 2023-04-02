@@ -741,14 +741,14 @@ public class VoiceExpander {
         }
     }
 
-    public void setMuteAllVoices(final boolean mute) {
+    public void muteAllVoices(final boolean mute) {
         initAllVoices();
         for (int i = 0; i < maxNumberOfVoices; i++) {
             getVoiceNr(i).setMuted(mute);
         }
     }
 
-    public void muteVoice(int voiceIndex, final boolean mute) {
+    public void muteVoice(final int voiceIndex, final boolean mute) {
         final Voice voice = getVoiceNr(voiceIndex);
         if (voice != null) voice.setMuted(mute);
     }
@@ -770,7 +770,7 @@ public class VoiceExpander {
 
     public void toggleMuteAllVoice(int voiceIndex) {
         final Voice voice = getVoiceNr(voiceIndex);
-        setMuteAllVoices(!voice.isMuted());
+        muteAllVoices(!voice.isMuted());
     }
 
     public boolean isVoiceMuted(int voiceIndex) {

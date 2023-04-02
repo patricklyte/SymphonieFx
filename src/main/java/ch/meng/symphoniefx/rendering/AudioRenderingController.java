@@ -110,7 +110,7 @@ public class AudioRenderingController {
     String text;
 
     public void setStage(Parent parentPane, Scene scene, Group group, Application application, Stage stage, Song song) {
-        oldVoiceexpander = song.getLinkedVoiceExpander();
+        oldVoiceexpander = song.getLinkedVoiceExpander().get();
         this.group = group;
         this.scene = scene;
         titleLabel.setBackground(playingSongBackground);
