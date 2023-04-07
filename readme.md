@@ -10,6 +10,9 @@ http://aminet.net/package/mus/edit/Symphonie
 Songs can be found at
 http://aminet.net/search?query=symphonie
 
+The first complete implementation of the symmod format has been reached by
+https://openmpt.org/
+
 
 The vsthost lib is used for vst instrument support supporting 64 and 32 Bit Vst Instruments of version 2.x 
 
