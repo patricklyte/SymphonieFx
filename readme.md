@@ -1,4 +1,4 @@
-SymphonieFx (c) Patrick Meng 2021 is a JavaFx implemention of Symphonie developed in the 90s for Amiga Computers.
+SymphonieFx (c) Patrick Meng 2023 is a JavaFx implemention of Symphonie developed in the 90s for Amiga Computers.
 No warranty of any kind given. You use this software at your own risk. This is freeware and opensource.
 You may use parts of the sourcecode in your own projects.
 
