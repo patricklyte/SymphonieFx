@@ -982,11 +982,11 @@ public class Song {
                 }
                 break;
             case SongEventType.FX_CHANNELFILTER:
-                logger.error("VERIFY:FX_CHANNELFILTER playing disabled");
+                logger.error("VERIFY:FX_CHANNELFILTER not yet supported");
                 //voiceExpander.setFilter(VoiceNr, (int) songEvent.A, songEvent.C, songEvent.D); // Type, q, Freq
                 break;
             case SongEventType.FX_FILTERPerfectLP4:
-                logger.error("VERIFY:FX_FILTERPerfectLP4 playing disabled");
+                logger.error("VERIFY:FX_FILTERPerfectLP4 not yet supported");
                 //voiceExpander.setFilterPerfectLP4(VoiceNr, (int) songEvent.A, songEvent.C, songEvent.D); // Type, q, Freq
                 break;
             case SongEventType.FX_DSP_DISABLE:
@@ -1023,7 +1023,7 @@ public class Song {
                 setPositionSpeedinCycl(actualPositionSpeed);
                 break;
             case SongEventType.FX_SAMPLEVIB:
-                print("FX_SAMPLEVIB");
+                print("FX_SAMPLEVIB not yet supported");
                 break;
             default:
                 //print("UNKNOWN EVENT");

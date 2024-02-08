@@ -1,7 +1,7 @@
 package ch.meng.symphoniefx;
 
 
-import ch.meng.symphoniefx.dsp.DspStereoTestFXFilterSymphonie;
+import ch.meng.symphoniefx.dsp.DspStereoTest4PolLPFilter;
 import ch.meng.symphoniefx.mixer.VoiceExpander;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -17,11 +17,11 @@ public class TestController {
     Label test;
     ChoiceBox<TestType> testChoice;
     VoiceExpander voiceExpander;
-    DspStereoTestFXFilterSymphonie dspStereoTestFX;
-
+    //DspStereoTestFXFilterSymphonie dspStereoTestFX;
+    DspStereoTest4PolLPFilter dspStereoTestFX;
     TestController(GridPane testGridPane, VoiceExpander voiceExpander) {
         this.voiceExpander = voiceExpander;
-        dspStereoTestFX = (DspStereoTestFXFilterSymphonie) voiceExpander.getTestFX();
+        dspStereoTestFX = (DspStereoTest4PolLPFilter) voiceExpander.getTestFX();
         testGridPane.addRow(0);
         testGridPane.addRow(0);
 

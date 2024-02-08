@@ -1045,8 +1045,8 @@ public class VoiceExpander {
     public void onAddStream(final double[] destinationBufferPtr, final int numberOfStereoFrames) {
     }
 
-    DspStereoEffect testFX = new DspStereoTestFXFilterSymphonie();
-
+    //DspStereoEffect testFX = new DspStereoTestFXFilterSymphonie();
+    final DspStereoEffect testFX = new  DspStereoTest4PolLPFilter();
     public DspStereoEffect getTestFX() {
         return testFX;
     }
@@ -1097,7 +1097,8 @@ public class VoiceExpander {
 
     public void testResoFilter(double freq, double reso) {
         try {
-            DspStereoTestFXFilterSymphonie testFX = (DspStereoTestFXFilterSymphonie) this.testFX;
+            //DspStereoTestFXFilterSymphonie testFX = (DspStereoTestFXFilterSymphonie) this.testFX;
+            DspStereoTest4PolLPFilter testFX = (DspStereoTest4PolLPFilter) this.testFX;
             testFX.setClipping(32000);
             testFX.init(FilterType.Lowpass, reso, freq, this.mixFrequency);
         } catch (Exception exception) {

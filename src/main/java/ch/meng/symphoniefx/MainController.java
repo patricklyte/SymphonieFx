@@ -221,7 +221,9 @@ public class MainController {
 
     public void setHostServices(HostServices hostServices) {
         this.hostServices = hostServices;
+
     }
+
 
     @FXML
     void loadWithDefaultProgramm() {
@@ -518,8 +520,28 @@ public class MainController {
         rootPane.setOnKeyReleased(event -> {
             addKeyboardOffEvents(event);
         });
-        midiManager = new MidiManager();
+        midiManager = new MidiManager() {
+            void onKeyOn(int pitch, int punch) {
+                keyboardKeyon(pitch);
+            }
+            void onKeyOff(int pitch) {
+                keyboardKeyoff(pitch);
+            }
+            void onController(int command, int data1, int data2) {
+                if(command==176) {
+                    switch (data1) {
+                        case 117 -> continuePlayingSong();
+                        case 116 -> stopSong();
+                        case 74 -> volumeSlider.setValue((data2 * 125) / 127);
+                        case 71 -> moveToInstrument = data2;
+                        default -> logger.debug("cc"+ data1 + ":" + data2);
+                    }
+                }
+            }
+        };
     }
+
+    int moveToInstrument = 0;
 
     public void addStandardKeyEvents(KeyEvent event) {
         if (event.getCode().equals(KeyCode.SPACE)) tooglePlaySong();
@@ -1459,6 +1481,7 @@ public class MainController {
         if (executorService != null) executorService.shutdown();
         voiceExpander.shutdown();
         voiceExpander = null;
+        midiManager.shutdown();
     }
 
     private void freeResources() {
@@ -1813,6 +1836,11 @@ public class MainController {
     void notifyUpdateUI() {
         try {
             if(shutdown) return;
+            if(moveToInstrument > 0) {
+                int temp = moveToInstrument;
+                moveToInstrument = 0;
+                instrumentController.moveToInstrument(temp);
+            }
             updateStatus();
             updateDspUI();
             List<String> messagesFromSubtask = backgroundMusicTask.getCachedMessages();
@@ -1982,7 +2010,7 @@ public class MainController {
         } else {
             textColor = Color.WHITE;
         }
-        SharedStatic.drawTextWithBackground(gc,x,y, text, textColor, blackTransparentColor);
+        drawTextWithBackground(gc,x,y, text, textColor, blackTransparentColor);
     }
 
     private WritableImage tempImage;
@@ -2059,6 +2087,12 @@ public class MainController {
     void resetVisualsForLoading() {
         print("resetVisualsForLoading");
         patternController.resetVisualsForLoading();
+    }
+
+    @FXML
+    void showAbout() {
+        logger.debug("opening https://github.com/patricklyte/SymphonieFx/wiki");
+        getHostServices().showDocument("https://github.com/patricklyte/SymphonieFx/wiki");
     }
 
     @FXML

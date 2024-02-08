@@ -6,11 +6,22 @@
       <!--PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/-->
       <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
     </Console>
+    <File name="File-Appender" fileName="SymphonieFx.log" >
+      <PatternLayout>
+        <pattern>
+          [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+        </pattern>
+      </PatternLayout>
+    </File>
   </Appenders>
 
   <Loggers>
-    <Root level="trace">
+<!--    <Logger name="guru.springframework.blog.log4j2xml" level="debug">-->
+<!--      <AppenderRef ref="File-Appender" level="error"/>-->
+<!--    </Logger>-->
+    <Root level="debug">
       <AppenderRef ref="Console"/>
+      <AppenderRef ref="File-Appender" level="debug"/>
     </Root>
   </Loggers>
 

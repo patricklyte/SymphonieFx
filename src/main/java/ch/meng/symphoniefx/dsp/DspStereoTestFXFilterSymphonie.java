@@ -5,7 +5,7 @@ import symreader.FilterType;
 public class DspStereoTestFXFilterSymphonie extends DspStereoBaseEffect implements DspStereoEffect {
 
     public static String getName() {
-        return "Cross Echo";
+        return "DspStereoTestFXFilterSymphonie";
     }
 
     public DspStereoTestFXFilterSymphonie() {

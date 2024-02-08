@@ -38,6 +38,7 @@ public class AudioHAL {
     }
 
     public Mixer.Info getMixerInfo(int index) {
+        if(index < 0) index = 0;
         return javaDevices.get(index);
     }
 
