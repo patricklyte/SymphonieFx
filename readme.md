@@ -1,6 +1,6 @@
 SymphonieFx (c) Patrick Meng is a JavaFx implemention of Symphonie developed in the 90s for Amiga Computers.
 No warranty of any kind given. You use this software at your own risk. This is freeware and opensource.
-You may use parts of the sourcecode in your own projects.
+You can use parts of the sourcecode in your own projects.
 https://github.com/patricklyte/SymphonieFx/wiki
 
 Original software is
